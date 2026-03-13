@@ -20,7 +20,7 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
 <nav className="absolute top-0 left-0 z-20 w-full p-6 md:p-10 flex justify-between items-center">
   <div className="flex items-center">
     <Image 
-      src="/logo.png" 
+      src="/brand-logo.png"
       alt="相信閱讀 Logo" 
       width={180} 
       height={60} 
@@ -70,4 +70,3 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
       </footer>
     </main>
   );
-}
