@@ -16,7 +16,7 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80"></div>
       </div>
 
-      {/* 🎖️ 頂部導覽列 - 確保 Logo 待在左上角 */}
+     {/* 🎖️ 頂部導覽列 - 確保 Logo 待在左上角 */}
 <nav className="absolute top-0 left-0 z-20 w-full p-6 md:p-10 flex justify-between items-center">
   <div className="flex items-center">
     <Image 
