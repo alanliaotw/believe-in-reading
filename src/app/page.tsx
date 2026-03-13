@@ -40,8 +40,9 @@ export default function Home() {
         {/* 按鈕組：手機版垂直排列，電腦版橫向排列 */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6">
           <a 
-            href="https://www.youtube.com/@相信閱讀" 
+            href="https://www.youtube.com/channel/UCiSSOVa6qHyigTSMpI3uQJQ" 
             target="_blank" 
+            rel="noopener noreferrer" // 加上這行能增加安全性與連線穩定度
             className="w-full sm:w-auto rounded-full bg-white px-10 py-4 text-black font-bold transition-all active:scale-95 hover:bg-emerald-500 hover:text-white text-center shadow-xl text-sm md:text-base"
           >
             觀看潮永續影片
