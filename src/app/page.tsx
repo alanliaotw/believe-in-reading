@@ -46,21 +46,17 @@ export default function Home() {
           </span>
         </p>
 
-        {/* 按鈕組 */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6">
+        {/* 按鈕組 - 剩下一顆核心按鈕，更顯專注 */}
+        <div className="flex justify-center items-center">
           <a 
             href="https://www.youtube.com/channel/UCiSSOVa6qHyigTSMpI3uQJQ" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="w-full sm:w-auto rounded-full bg-white px-10 py-4 text-black font-bold transition-all active:scale-95 hover:bg-emerald-500 hover:text-white text-center shadow-xl text-sm md:text-base"
+            className="w-full sm:w-auto rounded-full bg-white px-12 py-4 text-black font-bold transition-all active:scale-95 hover:bg-emerald-500 hover:text-white text-center shadow-xl text-sm md:text-base"
           >
             觀看潮永續影片
           </a>
-          <button className="w-full sm:w-auto rounded-full border border-white/30 bg-white/5 backdrop-blur-md px-10 py-4 text-white transition active:scale-95 hover:bg-white/20 text-sm md:text-base">
-            Focus 聚焦誌
-          </button>
         </div>
-      </div>
 
       {/* 底部文案 */}
       <footer className="absolute bottom-8 md:bottom-10 z-10 text-gray-500 text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] text-center px-4">
