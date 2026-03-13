@@ -16,17 +16,20 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80"></div>
       </div>
 
-      {/* 左上角 LOGO */}
-<div className="flex items-center gap-2"> {/* 加上這個 div 可以控制 Logo 樣式 */}
-  <Image 
-    src="/logo.png"       // 這是剛才放在 public 的路徑
-    alt="相信閱讀 Logo"  // 這是給搜尋引擎看的描述
-    width={150}            // 設定圖片寬度 (例如 150px)
-    height={50}            // 設定圖片高度 (例如 50px)
-    className="h-8 w-auto object-contain" // 這是關鍵！控制 Logo 在手機和電腦上的顯示比例
-    priority              // 告訴瀏覽器，這個 Logo 最重要，要優先載入
-  />
-</div>
+      {/* 🎖️ 頂部導覽列 - 確保 Logo 待在左上角 */}
+<nav className="absolute top-0 left-0 z-20 w-full p-6 md:p-10 flex justify-between items-center">
+  <div className="flex items-center">
+    <Image 
+      src="/logo.png" 
+      alt="相信閱讀 Logo" 
+      width={180} 
+      height={60} 
+      className="h-10 md:h-12 w-auto object-contain" 
+      priority 
+    />
+  </div>
+  {/* 如果右邊想放東西可以放這，現在先留空 */}
+</nav>
       
 
       {/* 前景內容 - 響應式文字大小調整 */}
