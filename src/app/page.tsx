@@ -27,7 +27,7 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
     priority              // 告訴瀏覽器，這個 Logo 最重要，要優先載入
   />
 </div>
-      </div>
+      
 
       {/* 前景內容 - 響應式文字大小調整 */}
       <div className="relative z-10 w-full max-w-4xl text-center animate-in fade-in zoom-in duration-1000">
