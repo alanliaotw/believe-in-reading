@@ -27,7 +27,7 @@ export default function Home() {
       <div className="relative z-10 w-full max-w-4xl text-center animate-in fade-in zoom-in duration-1000">
         <h1 className="mb-4 md:mb-6 text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
           相信閱讀 <br className="md:hidden" />
-          <span className="text-emerald-500 italic">Believe in Reading</span>
+          <span className="text-emerald-500 italic">Read & Believe</span>
         </h1>
         
         <p className="mb-10 md:mb-12 text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200">
