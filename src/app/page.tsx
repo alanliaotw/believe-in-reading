@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-black text-white px-6">
       
-      {/* 🎬 導演級背景影片 - 必須保持全英文語法 */}
+      {/* 🎬 導演級背景影片 */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -18,9 +18,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80"></div>
       </div>
 
-      {/* 🎖️ 頂部導覽列 - Logo 絕對定位在左上角 */}
-      <nav className="absolute top-0 left-0 z-20 w-full p-6 md:p-10 flex justify-between items-center">
-        <div className="flex items-center">
+      {/* 🎖️ 頂部導覽列 - 確保 Logo 待在左上角 */}
+      <nav className="absolute top-0 left-0 z-20 w-full p-6 md:p-10 flex justify-between items-center pointer-events-none">
+        <div className="flex items-center pointer-events-auto">
           <Image 
             src="/brand-logo.png" 
             alt="相信閱讀 Logo" 
@@ -46,7 +46,7 @@ export default function Home() {
           </span>
         </p>
 
-        {/* 按鈕組 - 剩下一顆核心按鈕，更顯專注 */}
+        {/* 按鈕組 - 專注於單一核心動作 */}
         <div className="flex justify-center items-center">
           <a 
             href="https://www.youtube.com/channel/UCiSSOVa6qHyigTSMpI3uQJQ" 
@@ -57,6 +57,7 @@ export default function Home() {
             觀看潮永續影片
           </a>
         </div>
+      </div>
 
       {/* 底部文案 */}
       <footer className="absolute bottom-8 md:bottom-10 z-10 text-gray-500 text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] text-center px-4">
