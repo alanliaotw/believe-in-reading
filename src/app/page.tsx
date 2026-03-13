@@ -1,4 +1,4 @@
-export default function Home() {
+import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-black text-white px-6">
       
@@ -16,11 +16,17 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80"></div>
       </div>
 
-      {/* 1. 頂部導航（手機版縮小） */}
-      <div className="absolute top-8 left-6 md:top-10 md:left-10 z-20">
-        <div className="text-lg md:text-xl font-bold tracking-widest border-l-4 border-emerald-500 pl-4">
-          相信閱讀
-        </div>
+      {/* 左上角 LOGO */}
+<div className="flex items-center gap-2"> {/* 加上這個 div 可以控制 Logo 樣式 */}
+  <Image 
+    src="/logo.png"       // 這是剛才放在 public 的路徑
+    alt="相信閱讀 Logo"  // 這是給搜尋引擎看的描述
+    width={150}            // 設定圖片寬度 (例如 150px)
+    height={50}            // 設定圖片高度 (例如 50px)
+    className="h-8 w-auto object-contain" // 這是關鍵！控制 Logo 在手機和電腦上的顯示比例
+    priority              // 告訴瀏覽器，這個 Logo 最重要，要優先載入
+  />
+</div>
       </div>
 
       {/* 前景內容 - 響應式文字大小調整 */}
