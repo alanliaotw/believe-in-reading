@@ -31,7 +31,7 @@ export default function Home() {
         </h1>
         
         <p className="mb-10 md:mb-12 text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200">
-          「字裡行間，看見地球的潮起潮落。」<br />
+          「The Value of Trust in a Sustainable Future」<br />
           <span className="text-emerald-400 font-medium text-sm sm:text-lg md:text-xl tracking-[0.1em] md:tracking-widest block mt-2">
             讓價值被看見 — 潮永續 × 永續列車
           </span>
