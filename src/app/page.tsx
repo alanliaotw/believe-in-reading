@@ -1,8 +1,10 @@
-import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件export default function Home() {
+import Image from 'next/image';
+
+export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-black text-white px-6">
       
-      {/* 🎬 導演級背景影片 */}
+      {/* 🎬 導演級背景影片 - 必須保持全英文語法 */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -16,23 +18,21 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80"></div>
       </div>
 
-     {/* 🎖️ 頂部導覽列 - 確保 Logo 待在左上角 */}
-<nav className="absolute top-0 left-0 z-20 w-full p-6 md:p-10 flex justify-between items-center">
-  <div className="flex items-center">
-    <Image 
-      src="/brand-logo.png"
-      alt="相信閱讀 Logo" 
-      width={180} 
-      height={60} 
-      className="h-10 md:h-12 w-auto object-contain" 
-      priority 
-    />
-  </div>
-  {/* 如果右邊想放東西可以放這，現在先留空 */}
-</nav>
-      
+      {/* 🎖️ 頂部導覽列 - Logo 絕對定位在左上角 */}
+      <nav className="absolute top-0 left-0 z-20 w-full p-6 md:p-10 flex justify-between items-center">
+        <div className="flex items-center">
+          <Image 
+            src="/brand-logo.png" 
+            alt="相信閱讀 Logo" 
+            width={180} 
+            height={60} 
+            className="h-10 md:h-12 w-auto object-contain" 
+            priority 
+          />
+        </div>
+      </nav>
 
-      {/* 前景內容 - 響應式文字大小調整 */}
+      {/* 前景內容 */}
       <div className="relative z-10 w-full max-w-4xl text-center animate-in fade-in zoom-in duration-1000">
         <h1 className="mb-4 md:mb-6 text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
           相信閱讀 <br className="md:hidden" />
@@ -46,12 +46,12 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
           </span>
         </p>
 
-        {/* 按鈕組：手機版垂直排列，電腦版橫向排列 */}
+        {/* 按鈕組 */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6">
           <a 
             href="https://www.youtube.com/channel/UCiSSOVa6qHyigTSMpI3uQJQ" 
             target="_blank" 
-            rel="noopener noreferrer" // 加上這行能增加安全性與連線穩定度
+            rel="noopener noreferrer"
             className="w-full sm:w-auto rounded-full bg-white px-10 py-4 text-black font-bold transition-all active:scale-95 hover:bg-emerald-500 hover:text-white text-center shadow-xl text-sm md:text-base"
           >
             觀看潮永續影片
@@ -62,7 +62,7 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
         </div>
       </div>
 
-      {/* 底部文案 - 針對小螢幕微調間距 */}
+      {/* 底部文案 */}
       <footer className="absolute bottom-8 md:bottom-10 z-10 text-gray-500 text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] text-center px-4">
         Believe in Reading International<br className="md:hidden" />
         <span className="hidden md:inline"> | </span>
@@ -70,3 +70,4 @@ import Image from 'next/image'; // 這是 Next.js 專用的圖片優化元件exp
       </footer>
     </main>
   );
+}
