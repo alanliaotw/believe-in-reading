@@ -61,7 +61,7 @@ export default function Home() {
 
       {/* 底部文案 */}
       <footer className="absolute bottom-8 md:bottom-10 z-10 text-gray-500 text-[10px] md:text-sm tracking-[0.1em] md:tracking-[0.2em] text-center px-4">
-        Believe in Reading International<br className="md:hidden" />
+        Your value can be seen.<br className="md:hidden" />
         <span className="hidden md:inline"> | </span>
         <span className="text-emerald-500/80 font-medium">讓價值被看見</span>
       </footer>
