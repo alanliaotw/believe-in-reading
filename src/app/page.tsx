@@ -35,8 +35,8 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* 📱 PChome 風格：橫向滾動分類選單 */}
-      <div className="absolute top-24 md:top-32 left-0 z-30 w-full overflow-hidden">
+      {/* 📱 PChome 風格：橫向滾動分類選單 - 確保 z-index 足夠高 */}
+      <div className="absolute top-24 md:top-32 left-0 z-[40] w-full overflow-hidden">
         <div className="flex overflow-x-auto px-6 md:px-10 py-2 gap-3 md:gap-4 no-scrollbar">
           {categories.map((cat) => (
             <button 
@@ -49,8 +49,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 前景內容 */}
-      <div className="relative z-10 w-full max-w-4xl text-center animate-in fade-in zoom-in duration-1000 mt-20">
+      {/* 前景內容 - 加上 mt-20 避免被選單擋住 */}
+      <div className="relative z-10 w-full max-w-4xl text-center animate-in fade-in zoom-in duration-1000 mt-28 md:mt-0">
         <h1 className="mb-4 md:mb-6 text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
           相信閱讀 <br className="md:hidden" />
           <span className="text-emerald-500 italic">Read & Believe</span>
