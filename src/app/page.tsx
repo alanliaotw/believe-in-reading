@@ -73,7 +73,7 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center py-24">
             <div className="w-10 h-10 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-6"></div>
             <p className="text-emerald-500 font-black tracking-[0.3em] animate-pulse text-[10px] uppercase">
-              System Initializing...
+正在啟動永續思維系統...
             </p>
           </div>
         ) : (
