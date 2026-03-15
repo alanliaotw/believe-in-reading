@@ -35,7 +35,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* 📱 PChome 風格：橫向滾動分類選單 - 確保 z-index 足夠高 */}
+      {/* 📱 PChome 風格：橫向滾動分類選單 */}
       <div className="absolute top-24 md:top-32 left-0 z-[40] w-full overflow-hidden">
         <div className="flex overflow-x-auto px-6 md:px-10 py-2 gap-3 md:gap-4 no-scrollbar">
           {categories.map((cat) => (
@@ -49,7 +49,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 前景內容 - 加上 mt-20 避免被選單擋住 */}
+      {/* 前景內容 */}
       <div className="relative z-10 w-full max-w-4xl text-center animate-in fade-in zoom-in duration-1000 mt-28 md:mt-0">
         <h1 className="mb-4 md:mb-6 text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
           相信閱讀 <br className="md:hidden" />
@@ -63,7 +63,6 @@ export default function Home() {
           </span>
         </p>
 
-        {/* 按鈕組 */}
         <div className="flex justify-center items-center">
           <a 
             href="https://www.youtube.com/channel/UCiSSOVa6qHyigTSMpI3uQJQ" 
@@ -83,15 +82,9 @@ export default function Home() {
         <span className="text-emerald-500/80 font-medium">讓價值被看見</span>
       </footer>
 
-      {/* 隱藏滾動條的 CSS */}
       <style jsx global>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </main>
   );
