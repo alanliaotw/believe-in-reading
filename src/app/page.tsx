@@ -63,7 +63,7 @@ export default function Home() {
       {/* 📺 內容展示區 */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
-          <p className="text-center text-emerald-500 animate-pulse">正在從老闆的後台抓取資料...</p>
+          <p className="text-center text-emerald-500 animate-pulse">正在抓取資料...</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredData.length > 0 ? (
@@ -81,7 +81,7 @@ export default function Home() {
               ))
             ) : (
               <div className="col-span-full text-center py-20 opacity-50 italic">
-                分類「{activeCategory}」目前還沒有內容，快去 Google Sheet 增加資料吧！
+                分類「{activeCategory}」目前還沒有內容
               </div>
             )}
           </div>
