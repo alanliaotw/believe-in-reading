@@ -24,20 +24,14 @@ export default function Home() {
       });
   }, []);
 
-  // 輔助函式：根據關鍵字尋找 JSON 裡的資料
-  const getValueByKeyword = (item: any, keywords: string[]) => {
-    const keys = Object.keys(item);
-    const targetKey = keys.find(k => keywords.some(kw => k.includes(kw)));
-    return targetKey ? item[targetKey] : "";
-  };
-
   const filteredData = allData.filter((item: any) => {
-    const category = getValueByKeyword(item, ["分類", "category"]);
-    return category === activeCategory;
+    const cat = item["分類 (category)"] || item.category || item.分類;
+    return cat === activeCategory;
   });
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
+      {/* 🎬 背景影片 */}
       <div className="fixed inset-0 z-0">
         <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
           <source src="/bg-video.mp4" type="video/mp4" />
@@ -67,25 +61,26 @@ export default function Home() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
-          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">系統載入中...</p>
+          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動永續思維系統....</p>
         ) : (
           <div className="animate-fade-in">
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 根據 CSV 精準映射
-                  const content = getValueByKeyword(item, ["封面圖片連結", "imageUrl"]); // E 欄：長文內容
-                  const title = getValueByKeyword(item, ["標題", "title"]); // B 欄
-                  const sizeClass = getValueByKeyword(item, ["摘要", "description"]) || "text-xl"; // C 欄：文字大小代碼
-                  const alignClass = getValueByKeyword(item, ["影片連結", "videoUrl"]) || "text-center"; // D 欄：對齊代碼
-                  const styleClass = getValueByKeyword(item, ["顏色與風格", "style"]) || ""; // F 欄
+                  // 🛠️ 根據 CSV 原始結構精準抓取：
+                  const title = item["標題 (title)"] || item.title || "";
+                  const content = item["封面圖片連結 (imageUrl)"] || item.imageUrl || ""; // 長文在 E 欄
+                  const sizeClass = item["摘要 (description)"] || item.description || "text-xl"; // 大小在 C 欄
+                  const alignClass = item["影片連結 (videoUrl)"] || item.videoUrl || "text-center"; // 對齊在 D 欄
+                  const styleClass = item["顏色與風格"] || item.style || ""; // 風格在 F 欄
 
                   return (
                     <div key={`about-${i}`} className="mb-20">
                       <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em] mb-10">{title}</h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
+                        {/* 這裡保證只印出 content，對齊和大小只會作為樣式代碼執行 */}
                         <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${sizeClass} ${styleClass}`}>
-                          {String(content)}
+                          {content}
                         </p>
                       </div>
                     </div>
@@ -95,10 +90,10 @@ export default function Home() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {filteredData.map((item: any, i) => {
-                  const title = getValueByKeyword(item, ["標題", "title"]);
-                  const videoLink = getValueByKeyword(item, ["影片連結", "videoUrl"]);
-                  const imgVal = String(getValueByKeyword(item, ["封面圖片連結", "imageUrl"]));
-                  const finalImgUrl = imgVal.includes('http') ? imgVal : `https://drive.google.com/thumbnail?id=${imgVal}&sz=w800`;
+                  const title = item["標題 (title)"] || item.title || "";
+                  const imgValue = item["封面圖片連結 (imageUrl)"] || item.imageUrl || "";
+                  const videoLink = item["影片連結 (videoUrl)"] || item.videoUrl || "";
+                  const finalImgUrl = imgValue.includes('http') ? imgValue : `https://drive.google.com/thumbnail?id=${imgValue}&sz=w800`;
                   
                   return (
                     <div key={`item-${i}`} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all shadow-xl">
