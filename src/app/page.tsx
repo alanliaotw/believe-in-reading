@@ -70,16 +70,19 @@ export default function Home() {
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.length > 0 ? (
                   filteredData.map((item: any, i) => {
-                    // 🛠️ 核心修正：根據老闆的指示，內容改為讀取「封面圖片連結」欄位
-                    const displayContent = item.封面圖片連結 || item.imageUrl || item.description || item.摘要;
-                    const alignClass = item.videoUrl || item.影片連結 || 'text-center';
+                    // 🛠️ 核心修正：對齊老闆的欄位邏輯
+                    const content = item.description || item.摘要; // C 欄：內容
+                    const alignClass = item.videoUrl || item.影片連結 || 'text-center'; // D 欄：對齊
+                    const sizeClass = item.imageUrl || item.封面圖片連結 || 'text-xl'; // E 欄：大小
                     
                     return (
                       <div key={`about-${i}`} className="space-y-10">
-                        <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em]">{item.title || item.標題}</h2>
-                        <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl">
-                          <p className={`leading-relaxed text-gray-200 whitespace-pre-wrap text-xl ${alignClass}`}>
-                            {displayContent}
+                        <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em]">
+                          {item.title || item.標題}
+                        </h2>
+                        <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
+                          <p className={`leading-relaxed text-gray-200 whitespace-pre-wrap ${alignClass} ${sizeClass}`}>
+                            {content}
                           </p>
                         </div>
                       </div>
@@ -116,7 +119,7 @@ export default function Home() {
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
+        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
       `}</style>
     </main>
   );
