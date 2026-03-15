@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-// 已移除「環境工程」
+// 1. 定義正式的分類清單（已移除環境工程）
 const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
@@ -25,6 +25,7 @@ export default function Home() {
       });
   }, []);
 
+  // 2. 篩選邏輯：只顯示在 categories 清單內的資料
   const filteredData = allData.filter((item: any) => {
     const cat = item["分類 (category)"] || item.category || item.分類;
     return cat === activeCategory;
@@ -45,10 +46,13 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* 📱 分類選單：強制僅從定義好的清單產生按鈕 */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
         <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
           {categories.map((cat) => (
-            <button key={cat} onClick={() => setActiveCategory(cat)}
+            <button 
+              key={cat} 
+              onClick={() => setActiveCategory(cat)}
               className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
                 activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400 hover:bg-white/20"
               }`}
