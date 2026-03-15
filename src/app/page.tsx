@@ -19,12 +19,11 @@ export default function Home() {
         setLoading(false);
       })
       .catch(err => {
-        console.error("資料抓取失敗:", err);
+        console.error("抓取失敗:", err);
         setLoading(false);
       });
   }, []);
 
-  // 篩選分類
   const filteredData = allData.filter((item: any) => {
     const cat = item["分類 (category)"] || item.category || item.分類;
     return cat === activeCategory;
@@ -40,14 +39,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
       </div>
 
-      {/* 🎖️ Logo */}
       <nav className="relative z-50 p-6 md:p-10 max-w-7xl mx-auto flex justify-center md:justify-start">
         <div className="relative h-10 w-40">
           <Image src="/brand-logo.png" alt="Logo" fill className="object-contain" priority />
         </div>
       </nav>
 
-      {/* 📱 分類選單 */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
         <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
           {categories.map((cat) => (
@@ -55,7 +52,7 @@ export default function Home() {
               key={cat} 
               onClick={() => setActiveCategory(cat)}
               className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400 hover:bg-white/20"
+                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400"
               }`}
             >
               {cat}
@@ -64,7 +61,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 📺 內容展示區 */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
           <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動永續思維系統....</p>
@@ -73,14 +69,15 @@ export default function Home() {
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 嚴格對齊後台 CSV 欄位
-                  // 1. 內容 (Content) 鎖定在 E 欄
-                  const content = item["封面圖片連結 (imageUrl)"] || item.imageUrl || ""; 
+                  // 🛠️ 遵照老闆指示修正欄位對應：
+                  // 1. 內容 (Content) 鎖定在 D 欄 (videoUrl)
+                  const content = item["影片連結 (videoUrl)"] || item.videoUrl || ""; 
                   
-                  // 2. 指令 (Classes) 隔離讀取
-                  const sizeClass = item["摘要 (description)"] || item.description || "text-xl"; // C 欄
-                  const alignClass = item["影片連結 (videoUrl)"] || item.videoUrl || "text-center"; // D 欄
-                  const styleClass = item["顏色與風格"] || item.style || ""; // F 欄
+                  // 2. 對齊指令鎖定在 C 欄 (description)
+                  const alignClass = item["摘要 (description)"] || item.description || "text-center"; 
+                  
+                  // 3. 大小與顏色鎖定在 F 欄 (顏色與風格)
+                  const styleClass = item["顏色與風格"] || item.style || "text-xl";
 
                   return (
                     <div key={`about-${i}`} className="mb-20 last:mb-0">
@@ -88,8 +85,7 @@ export default function Home() {
                         {item["標題 (title)"] || item.title || item.標題}
                       </h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
-                        {/* 這裡只印出 content 變數，指令全部進 className */}
-                        <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${sizeClass} ${styleClass}`}>
+                        <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${styleClass}`}>
                           {content}
                         </p>
                       </div>
