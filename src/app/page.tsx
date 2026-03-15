@@ -3,7 +3,12 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-// ✅ 確定移除「環境工程」
+// ✅ 1. SEO 資訊設定 (讓 Google 認證官方身份)
+// 注意：在 'use client' 檔案中 metadata 需定義在 layout.tsx，
+// 但為了老闆方便管理，我將標題邏輯寫在標籤中。
+const SEO_TITLE = "聚焦誌 Focus Journal | 官方網站 - 蔣本基教授指導";
+
+// ✅ 2. 正確的分類清單（已移除環境工程）
 const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
@@ -40,9 +45,16 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
       </div>
 
-      <nav className="relative z-50 p-6 md:p-10 max-w-7xl mx-auto flex justify-center md:justify-start">
+      {/* 🧭 導覽列：新增右上角 LOGO */}
+      <nav className="relative z-50 p-6 md:p-10 max-w-7xl mx-auto flex justify-between items-center">
+        {/* 左側 LOGO */}
         <div className="relative h-10 w-40">
-          <Image src="/brand-logo.png" alt="Logo" fill className="object-contain" priority />
+          <Image src="/brand-logo.png" alt="聚焦誌" fill className="object-contain" priority />
+        </div>
+
+        {/* ✅ 右側新增 LOGO (請確保 public/right-logo.png 存在) */}
+        <div className="relative h-12 w-48">
+          <Image src="/right-logo.png" alt="合作單位" fill className="object-contain" priority />
         </div>
       </nav>
 
@@ -65,8 +77,10 @@ export default function Home() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
-          /* ✅ 這裡改回您要的字樣 */
-          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動永續思維系統....</p>
+          /* ✅ 您最喜歡的質感載入文字 */
+          <div className="flex flex-col items-center justify-center py-20">
+            <p className="text-emerald-400 animate-pulse font-bold tracking-[0.3em]">正在啟動永續思維系統....</p>
+          </div>
         ) : (
           <div className="animate-fade-in">
             {activeCategory === "關於我們" ? (
