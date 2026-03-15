@@ -11,12 +11,12 @@ const NewsSection = ({ newsData }: { newsData: any }) => {
     : dataList.filter((item: any) => item.分類 === activeCategory);
 
   return (
-    <section className="py-16 bg-white flex flex-col items-center"> {/* 這裡確保容器是從上往下排 */}
+    <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">最新消息</h2>
         
         {/* 分類切換按鈕 */}
-        <div className="flex flex-wrap justify-center gap-4 mb-6">
+        <div className="flex flex-wrap justify-center gap-4 mb-10">
           {categories.map(cat => (
             <button
               key={cat}
@@ -32,16 +32,11 @@ const NewsSection = ({ newsData }: { newsData: any }) => {
           ))}
         </div>
 
-        {/* 修正：將「查無內容」移出 Grid，改用單純的 div 控制位置 */}
-        {filteredNews.length === 0 ? (
-          <div className="w-full text-center mt-4 mb-20 text-gray-400 italic text-lg">
-            分類「{activeCategory}」目前還沒有內容
-          </div>
-        ) : (
-          /* 只有有內容時才渲染 Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-            {filteredNews.map((item: any, index: number) => (
-              <div key={index} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col bg-white h-full">
+        {/* 內容顯示區 - 保持原本的 Grid 結構 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredNews.length > 0 ? (
+            filteredNews.map((item: any, index: number) => (
+              <div key={index} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col bg-white h-full">
                 <div className="relative h-48 w-full">
                   <img 
                     src={`https://drive.google.com/thumbnail?id=${item.封面圖片連結}&sz=w800`} 
@@ -68,9 +63,14 @@ const NewsSection = ({ newsData }: { newsData: any }) => {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          ) : (
+            /* 恢復原來的大氣提示：維持 col-span-full，僅微調 py 避免死死置中 */
+            <div className="col-span-full text-center py-12 opacity-50 italic text-lg">
+              分類「{activeCategory}」目前還沒有內容
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -82,4 +82,4 @@ export default function Home({ data }: { data: any }) {
       <NewsSection newsData={data} />
     </main>
   );
-} 
+}
