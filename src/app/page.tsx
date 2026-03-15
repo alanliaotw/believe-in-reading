@@ -68,13 +68,13 @@ export default function Home() {
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 核心修正：
-                  // 內容鎖定在影片連結 (D 欄)
+                  // 🛠️ 最終物理隔離邏輯：
+                  // 1. 內容：死鎖在 D 欄 (videoUrl)
                   const content = item["影片連結 (videoUrl)"] || item.videoUrl || ""; 
-                  // 對齊指令鎖定在摘要 (C 欄)
+                  // 2. 對齊：死鎖在 C 欄 (description)
                   const alignClass = item["摘要 (description)"] || item.description || "text-center"; 
-                  // 大小與風格鎖定在顏色與風格 (F 欄)
-                  const styleClass = item["顏色與風格"] || item.style || "text-xl";
+                  // 3. 大小與樣式：死鎖在 F 欄 (顏色與風格)
+                  const styleClass = item["顏色與風格"] || item.style || "";
 
                   return (
                     <div key={`about-${i}`} className="mb-20 last:mb-0">
@@ -82,6 +82,7 @@ export default function Home() {
                         {item["標題 (title)"] || item.title || item.標題}
                       </h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
+                        {/* 這裡只印出 content (D欄)，alignClass (C欄) 和 styleClass (F欄) 全部進入 className 執行樣式 */}
                         <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${styleClass}`}>
                           {content}
                         </p>
