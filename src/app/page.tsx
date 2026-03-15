@@ -61,21 +61,20 @@ export default function Home() {
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 老闆指示：內容唯一鎖定 C 欄 (摘要)
-                  const content = item.description || item.摘要 || "";
+                  // 🛠️ 老闆核心指示：內容鎖定在 E 欄 (封面圖片連結)
+                  const content = item.imageUrl || item.封面圖片連結 || "";
                   
-                  // 樣式則由 D, E, F 欄決定
-                  const alignClass = item.videoUrl || item.影片連結 || "text-center"; // D 欄
-                  const sizeClass = item.imageUrl || item.封面圖片連結 || "text-xl"; // E 欄
-                  const styleClass = item.columnF || item.其他備註 || item.f_column || ""; // F 欄
+                  // 其餘欄位純粹當樣式參數
+                  const alignClass = item.videoUrl || item.影片連結 || "text-center"; // D 欄：對齊
+                  const styleClass = item.columnF || item.其他備註 || item.f_column || ""; // F 欄：顏色/字體
 
                   return (
                     <div key={`about-${i}`} className="space-y-12">
                       <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em]">{item.title || item.標題}</h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
-                        {/* 這裡保證只會顯示 content，樣式代碼會被套用到 className */}
-                        <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${sizeClass} ${styleClass}`}>
-                          {content || "C 欄（摘要）目前沒有文字內容"}
+                        {/* 強制使用 E 欄內容，並維持文字大小固定 text-xl (或您可以在 F 欄一併調整) */}
+                        <p className={`leading-relaxed whitespace-pre-wrap text-xl ${alignClass} ${styleClass}`}>
+                          {content || "E 欄（封面圖片連結）目前沒有內容"}
                         </p>
                       </div>
                     </div>
