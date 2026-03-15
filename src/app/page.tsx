@@ -25,7 +25,6 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
-      {/* 🎬 背景影片 */}
       <div className="fixed inset-0 z-0">
         <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
           <source src="/bg-video.mp4" type="video/mp4" />
@@ -55,26 +54,24 @@ export default function Home() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
-          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">系統重啟中...</p>
+          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動永續思維系統....</p>
         ) : (
           <div className="animate-fade-in">
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 老闆核心指示：內容鎖定在 E 欄 (封面圖片連結)
-                  const content = item.imageUrl || item.封面圖片連結 || "";
-                  
-                  // 其餘欄位純粹當樣式參數
-                  const alignClass = item.videoUrl || item.影片連結 || "text-center"; // D 欄：對齊
-                  const styleClass = item.columnF || item.其他備註 || item.f_column || ""; // F 欄：顏色/字體
+                  // 🛠️ 根據檔案內容精準鎖定欄位：
+                  const content = item.imageUrl || item.封面圖片連結 || ""; // E 欄：長文內容
+                  const sizeClass = item.description || item.摘要 || "text-xl"; // C 欄：字體大小
+                  const alignClass = item.videoUrl || item.影片連結 || "text-center"; // D 欄：對齊方式
+                  const styleClass = item.style || item.顏色與風格 || ""; // F 欄：風格
 
                   return (
                     <div key={`about-${i}`} className="space-y-12">
                       <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em]">{item.title || item.標題}</h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
-                        {/* 強制使用 E 欄內容，並維持文字大小固定 text-xl (或您可以在 F 欄一併調整) */}
-                        <p className={`leading-relaxed whitespace-pre-wrap text-xl ${alignClass} ${styleClass}`}>
-                          {content || "E 欄（封面圖片連結）目前沒有內容"}
+                        <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${sizeClass} ${styleClass}`}>
+                          {content}
                         </p>
                       </div>
                     </div>
