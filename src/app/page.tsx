@@ -43,7 +43,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* 📱 分類選單 - 回歸橫向滑動 (Sticky) */}
+      {/* 📱 分類選單 */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
         <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
           {categories.map((cat) => (
@@ -67,20 +67,24 @@ export default function Home() {
         ) : (
           <div className="animate-fade-in">
             {activeCategory === "關於我們" ? (
-              <div className="max-w-4xl mx-auto py-20">
+              <div className="max-w-4xl mx-auto py-10">
                 {filteredData.length > 0 ? (
-                  filteredData.map((item: any, i) => (
-                    <div key={`about-${i}`} className="space-y-10 text-center">
-                      <h2 className="text-3xl font-bold text-emerald-500 tracking-[0.3em]">{item.title || item.標題}</h2>
-                      <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl">
-                        <p className={`leading-relaxed text-gray-200 whitespace-pre-wrap 
-                          ${item.videoUrl || item.影片連結 || 'text-center'} 
-                          ${item.imageUrl || item.封面圖片連結 || 'text-lg'}`}>
-                          {item.description || item.摘要}
-                        </p>
+                  filteredData.map((item: any, i) => {
+                    // 🛠️ 關鍵修正：確保樣式之間有空格，且有預設值
+                    const alignClass = item.videoUrl || item.影片連結 || 'text-center';
+                    const sizeClass = item.imageUrl || item.封面圖片連結 || 'text-lg';
+                    
+                    return (
+                      <div key={`about-${i}`} className="space-y-10">
+                        <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em]">{item.title || item.標題}</h2>
+                        <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl">
+                          <p className={`leading-relaxed text-gray-200 whitespace-pre-wrap ${alignClass} ${sizeClass}`}>
+                            {item.description || item.摘要}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 ) : (
                   <div className="text-center py-20 opacity-50 italic">No Content Available</div>
                 )}
