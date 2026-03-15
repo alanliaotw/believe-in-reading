@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 
 const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "環境工程", "關於我們"];
@@ -55,6 +57,7 @@ export default function Home() {
         Believe in Reading International | <span className="text-emerald-500/80 font-medium">讓價值被看見</span>
       </footer>
 
+      {/* 隱藏滾動條的 CSS */}
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
