@@ -21,11 +21,13 @@ export default function Home() {
       .catch(err => { console.error("抓取失敗:", err); setLoading(false); });
   }, []);
 
-  const filteredData = allData.filter((item: any) => (item.category || item.分類) === activeCategory);
+  const filteredData = allData.filter((item: any) => {
+    const val = Object.values(item);
+    return (item.category || item.分類 || val[0]) === activeCategory;
+  });
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
-      {/* 🎬 背景影片 */}
       <div className="fixed inset-0 z-0">
         <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
           <source src="/bg-video.mp4" type="video/mp4" />
@@ -39,13 +41,12 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* 📱 分類選單 */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
         <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
           {categories.map((cat) => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
               className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeCategory === cat ? "bg-emerald-500 text-white" : "bg-white/10 text-gray-400"
+                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400"
               }`}
             >
               {cat}
@@ -62,25 +63,20 @@ export default function Home() {
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 根據 CSV 標題與 Apps Script JSON 的三層保險讀取
-                  // 內容：鎖定在 E 欄
-                  const content = item.imageUrl || item.封面圖片連結 || item["封面圖片連結 (imageUrl)"] || ""; 
-                  // 大小：鎖定在 C 欄
-                  const sizeClass = item.description || item.摘要 || item["摘要 (description)"] || "text-xl"; 
-                  // 對齊：鎖定在 D 欄
-                  const alignClass = item.videoUrl || item.影片連結 || item["影片連結 (videoUrl)"] || "text-center"; 
-                  // 風格：鎖定在 F 欄
-                  const styleClass = item.style || item.顏色與風格 || "";
+                  const vals = Object.values(item);
+                  // 物理鎖定您的 CSV 結構
+                  const title = item.title || item.標題 || vals[1] || "";
+                  const sizeClass = item.description || item.摘要 || vals[2] || "text-xl";
+                  const alignClass = item.videoUrl || item.影片連結 || vals[3] || "text-center";
+                  const content = item.imageUrl || item.封面圖片連結 || vals[4] || "";
+                  const styleClass = item.style || item.顏色與風格 || vals[5] || "";
 
                   return (
-                    <div key={`about-${i}`} className="space-y-12">
-                      <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em]">
-                        {item.title || item.標題 || item["標題 (title)"]}
-                      </h2>
+                    <div key={`about-${i}`} className="mb-20 last:mb-0">
+                      <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em] mb-10">{title}</h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
-                        {/* 這裡保證只印出 content，對齊和大小全部塞進樣式 */}
                         <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${sizeClass} ${styleClass}`}>
-                          {content}
+                          {String(content)}
                         </p>
                       </div>
                     </div>
@@ -90,16 +86,20 @@ export default function Home() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {filteredData.map((item: any, i) => {
-                  const imgValue = item.imageUrl || item.封面圖片連結 || item["封面圖片連結 (imageUrl)"] || "";
-                  const finalImgUrl = imgValue.includes('http') ? imgValue : `https://drive.google.com/thumbnail?id=${imgValue}&sz=w800`;
+                  const vals = Object.values(item);
+                  const title = item.title || item.標題 || vals[1] || "";
+                  const videoLink = item.videoUrl || item.影片連結 || vals[3] || "";
+                  const imgVal = String(item.imageUrl || item.封面圖片連結 || vals[4] || "");
+                  const finalImgUrl = imgVal.includes('http') ? imgVal : `https://drive.google.com/thumbnail?id=${imgVal}&sz=w800`;
+                  
                   return (
                     <div key={`item-${i}`} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all shadow-xl">
                       <div className="aspect-video relative bg-gray-900">
                         <img src={finalImgUrl} alt="" className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
                       </div>
                       <div className="p-8">
-                        <h3 className="text-xl font-bold mb-4 line-clamp-2">{item.title || item.標題 || item["標題 (title)"]}</h3>
-                        <a href={item.videoUrl || item.影片連結 || item["影片連結 (videoUrl)"]} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold hover:underline text-xs uppercase">立即觀看 →</a>
+                        <h3 className="text-xl font-bold mb-4 line-clamp-2">{title}</h3>
+                        <a href={videoLink} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold hover:underline text-xs uppercase">立即觀看 →</a>
                       </div>
                     </div>
                   );
