@@ -69,8 +69,7 @@ export default function Home() {
                 <h2 className="text-3xl font-bold mb-8 text-emerald-500 tracking-widest">關於我們</h2>
                 <div className="bg-white/5 p-10 rounded-[2.5rem] border border-white/10 backdrop-blur-sm">
                   <p className="text-gray-300 leading-relaxed text-lg text-left">
-                    老闆，這裡是您的品牌故事空間。您可以直接在這裡輸入您想對觀眾說的話。<br /><br />
-                    相信閱讀，「讓價值被看見」為核心，服務於上市公司以及中小企業主，透過看的閱讀、聽的閱讀將閱讀的力量發揮無限，公司旗下有發行紙本雜誌 《Focus聚焦誌》，並且有優質的podcast節目ESG探照燈。
+                     相信閱讀，「讓價值被看見」為核心，服務於上市公司以及中小企業主，透過看的閱讀、聽的閱讀將閱讀的力量發揮無限，公司旗下有發行紙本雜誌 《Focus聚焦誌》，並且有優質的podcast節目ESG探照燈。
 
 《Focus聚焦誌》是國際化、永續化的時尚商業雜誌，發行於各大通路。以紙本媒體的傳統與創新，打造社會影響力，讓讀者/企業以更大的能量來面對ESG永續議題。並透過強化與讀者之間的互動，進而協助企業強化品牌形象，成為消費者抉擇時的重要關鍵。
                   </p>
