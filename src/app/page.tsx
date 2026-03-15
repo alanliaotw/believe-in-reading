@@ -31,7 +31,6 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
-      {/* 🎬 背景影片 */}
       <div className="fixed inset-0 z-0">
         <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
           <source src="/bg-video.mp4" type="video/mp4" />
@@ -63,20 +62,18 @@ export default function Home() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
-          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動永續思維系統....</p>
+          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動系統....</p>
         ) : (
           <div className="animate-fade-in">
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 遵照老闆指示修正欄位對應：
-                  // 1. 內容 (Content) 鎖定在 D 欄 (videoUrl)
+                  // 🛠️ 核心修正：
+                  // 內容鎖定在影片連結 (D 欄)
                   const content = item["影片連結 (videoUrl)"] || item.videoUrl || ""; 
-                  
-                  // 2. 對齊指令鎖定在 C 欄 (description)
+                  // 對齊指令鎖定在摘要 (C 欄)
                   const alignClass = item["摘要 (description)"] || item.description || "text-center"; 
-                  
-                  // 3. 大小與顏色鎖定在 F 欄 (顏色與風格)
+                  // 大小與風格鎖定在顏色與風格 (F 欄)
                   const styleClass = item["顏色與風格"] || item.style || "text-xl";
 
                   return (
