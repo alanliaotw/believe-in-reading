@@ -54,7 +54,7 @@ export default function Home() {
 
         {/* ✅ 右側新增 LOGO (請確保 public/right-logo.png 存在) */}
         <div className="relative h-12 w-48">
-          <Image src="/right-logo.jpg" alt="合作單位" fill className="object-contain" priority />
+          <Image src="/right-logo.png" alt="合作單位" fill className="object-contain" priority />
         </div>
       </nav>
 
