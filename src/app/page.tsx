@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "環境工程", "關於我們"];
+// 已移除「環境工程」
+const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("最新消息");
@@ -49,7 +50,7 @@ export default function Home() {
           {categories.map((cat) => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
               className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400"
+                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400 hover:bg-white/20"
               }`}
             >
               {cat}
@@ -60,13 +61,13 @@ export default function Home() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
-          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動系統....</p>
+          <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動永續思維系統....</p>
         ) : (
           <div className="animate-fade-in">
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  const title = item["標題 (title)"] || item.title || item.標題 || "";
+                  const title = item["標題 (title)"] || item.title || "";
                   const content = item["影片連結 (videoUrl)"] || item.videoUrl || ""; 
                   const alignClass = item["摘要 (description)"] || item.description || "text-center"; 
                   const styleClass = item["顏色與風格"] || item.style || "";
@@ -86,7 +87,7 @@ export default function Home() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {filteredData.map((item: any, i) => {
-                  const title = item["標題 (title)"] || item.title || item.標題 || "";
+                  const title = item["標題 (title)"] || item.title || "";
                   const videoLink = item["影片連結 (videoUrl)"] || item.videoUrl || "#";
                   const imgValue = item["封面圖片連結 (imageUrl)"] || item.imageUrl || "";
                   const finalImgUrl = imgValue.includes('http') ? imgValue : `https://drive.google.com/thumbnail?id=${imgValue}&sz=w800`;
