@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-// 🛠️ 僅在這裡移除「環境工程」，其餘完全保留原本的質感
+// 🛠️ 僅在這裡移除「環境工程」，確保按鈕消失
 const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
@@ -12,6 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 這裡使用您原本的 Google Apps Script URL
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbxjOdSz6LqxraxER6rLYjN31ElDtrGcPgxniiCgJrrq5sqUzItommSfSJiPr_T60hyW/exec';
     fetch(scriptUrl)
       .then(res => res.json())
@@ -26,13 +27,14 @@ export default function Home() {
   }, []);
 
   const filteredData = allData.filter((item: any) => {
+    // 讀取分類的邏輯回歸最簡單的判斷
     const cat = item["分類 (category)"] || item.category || item.分類;
     return cat === activeCategory;
   });
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
-      {/* 🎬 背景影片 - 保持原樣 */}
+      {/* 🎬 背景影片 */}
       <div className="fixed inset-0 z-0">
         <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
           <source src="/bg-video.mp4" type="video/mp4" />
@@ -53,7 +55,7 @@ export default function Home() {
               key={cat} 
               onClick={() => setActiveCategory(cat)}
               className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400 hover:bg-white/20"
+                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400"
               }`}
             >
               {cat}
@@ -64,13 +66,14 @@ export default function Home() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {loading ? (
-          /* ✅ 還原原本的動態文字 */
+          /* ✅ 恢復您最喜歡的載入文字 */
           <p className="text-center text-emerald-400 animate-pulse font-bold tracking-[0.3em] py-20">正在啟動永續思維系統....</p>
         ) : (
           <div className="animate-fade-in">
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
+                  // 根據老闆在資料表的調整，這裡讀取您放長文的 D 欄 (videoUrl)
                   const content = item["影片連結 (videoUrl)"] || item.videoUrl || ""; 
                   const alignClass = item["摘要 (description)"] || item.description || "text-center"; 
                   const styleClass = item["顏色與風格"] || item.style || "text-xl";
@@ -78,7 +81,7 @@ export default function Home() {
                   return (
                     <div key={`about-${i}`} className="mb-20 last:mb-0">
                       <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em] mb-10">
-                        {item["標題 (title)"] || item.title || item.標題}
+                        {item["標題 (title)"] || item.title || ""}
                       </h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
                         <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${styleClass}`}>
