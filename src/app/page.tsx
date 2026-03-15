@@ -47,9 +47,7 @@ export default function Home() {
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
         <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
           {categories.map((cat) => (
-            <button 
-              key={cat} 
-              onClick={() => setActiveCategory(cat)}
+            <button key={cat} onClick={() => setActiveCategory(cat)}
               className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
                 activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400"
               }`}
@@ -68,21 +66,15 @@ export default function Home() {
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 最終物理隔離邏輯：
-                  // 1. 內容：死鎖在 D 欄 (videoUrl)
+                  const title = item["標題 (title)"] || item.title || item.標題 || "";
                   const content = item["影片連結 (videoUrl)"] || item.videoUrl || ""; 
-                  // 2. 對齊：死鎖在 C 欄 (description)
                   const alignClass = item["摘要 (description)"] || item.description || "text-center"; 
-                  // 3. 大小與樣式：死鎖在 F 欄 (顏色與風格)
                   const styleClass = item["顏色與風格"] || item.style || "";
 
                   return (
                     <div key={`about-${i}`} className="mb-20 last:mb-0">
-                      <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em] mb-10">
-                        {item["標題 (title)"] || item.title || item.標題}
-                      </h2>
+                      <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em] mb-10">{title}</h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
-                        {/* 這裡只印出 content (D欄)，alignClass (C欄) 和 styleClass (F欄) 全部進入 className 執行樣式 */}
                         <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${styleClass}`}>
                           {content}
                         </p>
@@ -94,9 +86,10 @@ export default function Home() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {filteredData.map((item: any, i) => {
+                  const title = item["標題 (title)"] || item.title || item.標題 || "";
+                  const videoLink = item["影片連結 (videoUrl)"] || item.videoUrl || "#";
                   const imgValue = item["封面圖片連結 (imageUrl)"] || item.imageUrl || "";
                   const finalImgUrl = imgValue.includes('http') ? imgValue : `https://drive.google.com/thumbnail?id=${imgValue}&sz=w800`;
-                  const videoLink = item["影片連結 (videoUrl)"] || item.videoUrl || "#";
                   
                   return (
                     <div key={`item-${i}`} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all shadow-xl">
@@ -104,9 +97,7 @@ export default function Home() {
                         <img src={finalImgUrl} alt="" className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
                       </div>
                       <div className="p-8">
-                        <h3 className="text-xl font-bold mb-4 line-clamp-2">
-                          {item["標題 (title)"] || item.title || item.標題}
-                        </h3>
+                        <h3 className="text-xl font-bold mb-4 line-clamp-2">{title}</h3>
                         <a href={videoLink} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold hover:underline text-xs uppercase tracking-widest">立即觀看 →</a>
                       </div>
                     </div>
