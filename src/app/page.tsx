@@ -25,7 +25,6 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
-      {/* 🎬 背景影片 */}
       <div className="fixed inset-0 z-0">
         <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
           <source src="/bg-video.mp4" type="video/mp4" />
@@ -39,13 +38,12 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* 📱 分類選單 */}
       <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
         <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
           {categories.map((cat) => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
               className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                activeCategory === cat ? "bg-emerald-500 text-white" : "bg-white/10 text-gray-400"
+                activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400"
               }`}
             >
               {cat}
@@ -62,17 +60,18 @@ export default function Home() {
             {activeCategory === "關於我們" ? (
               <div className="max-w-4xl mx-auto py-10">
                 {filteredData.map((item: any, i) => {
-                  // 🛠️ 嚴格鎖定：絕對不會再把指令當內容
-                  const content = item.imageUrl || item.封面圖片連結 || ""; // 內容只看 E 欄
-                  const sizeClass = item.description || item.摘要 || "text-xl"; // 大小只看 C 欄
-                  const alignClass = item.videoUrl || item.影片連結 || "text-center"; // 對齊只看 D 欄
-                  const styleClass = item.style || item.顏色與風格 || ""; // 風格只看 F 欄
+                  // 🛠️ 終極鎖定：只取 E 欄 (imageUrl) 作為內容
+                  const content = item.imageUrl || item.封面圖片連結 || ""; 
+                  // 其餘欄位只准進 className，不准進畫面文字
+                  const sizeClass = item.description || item.摘要 || "text-xl"; // C 欄
+                  const alignClass = item.videoUrl || item.影片連結 || "text-center"; // D 欄
+                  const styleClass = item.顏色與風格 || item.style || ""; // F 欄
 
                   return (
                     <div key={`about-${i}`} className="space-y-12">
                       <h2 className="text-3xl font-bold text-emerald-500 text-center tracking-[0.3em]">{item.title || item.標題}</h2>
                       <div className="bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
-                        {/* 這裡只印出 content，alignClass 等指令會被放進 className 裡 */}
+                        {/* 這裡保證畫面只會印出 content 變數 */}
                         <p className={`leading-relaxed whitespace-pre-wrap ${alignClass} ${sizeClass} ${styleClass}`}>
                           {content}
                         </p>
