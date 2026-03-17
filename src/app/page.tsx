@@ -7,7 +7,7 @@ import Image from 'next/image';
 // 注意：在 'use client' 檔案中 metadata 需定義在 layout.tsx，
 // 但為了老闆方便管理，我將標題邏輯寫在標籤中。
 const SEO_TITLE = "聚焦誌 Focus Journal | 官方網站 - 蔣本基教授指導";
-
+const SEO_URL = "https://focus-esg.com";
 // ✅ 2. 正確的分類清單（已移除環境工程）
 const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 

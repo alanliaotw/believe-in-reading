@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '聚焦誌 Focus Journal - 官方網站',
     description: '引領永續思維的深度媒體',
-    url: 'https://www.focustaiwan.com.tw', // 如果您有確定網址可以改這裡
+    url: 'https://focus-esg.com', // 如果您有確定網址可以改這裡
     siteName: '聚焦誌 Focus Journal',
     images: [
       {
