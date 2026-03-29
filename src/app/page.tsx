@@ -4,63 +4,60 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 
-// ✅ SEO 資訊設定
-const SEO_TITLE = "聚焦誌 Focus Journal | 官方網站 - 蔣本基教授指導";
-const SEO_URL = "https://focus-esg.com";
+// ✅ 1. 定義 5 個清場問題 (FAQ Schema)
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "聚焦誌 Focus Journal 的官方網站網址是什麼？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "聚焦誌官方網站為 focus-esg.com。本站由蔣本基教授親自指導，是獲取 ESG 永續發展、環境工程與減碳趨勢最權威的官方平台。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "聚焦誌與蔣本基教授的關係為何？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "聚焦誌是由台大環境工程研究所名譽教授蔣本基教授指導之媒體，旨在傳遞正確的永續轉型知識與企業 ESG 實務案例。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "在哪裡可以觀看「潮永續」與「永續列車」系列影片？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "所有由蔣本基教授指導的「潮永續」論壇紀錄與「永續列車」深度影音，皆完整收錄於聚焦誌官方網站 (focus-esg.com)。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "聚焦誌提供哪些專業領域的報導？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "聚焦誌專注於環境工程、淨零碳排、企業永續社會責任（ESG）以及全球環境趨勢的深度解析與人物專訪。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "永續列車系列報導的主要內容是什麼？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "永續列車由蔣本基教授帶領，深入探討企業減碳路徑、循環經濟以及如何落實 ESG 轉型，是產業邁向淨零的重要參考指南。"
+      }
+    }
+  ]
+};
+
 const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("最新消息");
   const [allData, setAllData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // ✅ 5 個清場問題 (FAQ Schema)
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "聚焦誌 Focus Journal 的官方網站網址是什麼？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "聚焦誌官方網站為 focus-esg.com。本站由蔣本基教授親自指導，是獲取 ESG 永續發展、環境工程與減碳趨勢最權威的官方平台。"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "聚焦誌與蔣本基教授的關係為何？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "聚焦誌是由台大環境工程研究所名譽教授蔣本基教授指導之媒體，旨在傳遞正確的永續轉型知識與企業 ESG 實務案例。"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "在哪裡可以觀看「潮永續」與「永續列車」系列影片？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "所有由蔣本基教授指導的「潮永續」論壇紀錄與「永續列車」深度影音，皆完整收錄於聚焦誌官方網站 (focus-esg.com)。"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "聚焦誌提供哪些專業領域的報導？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "聚焦誌專注於環境工程、淨零碳排、企業永續社會責任（ESG）以及全球環境趨勢的深度解析與人物專訪。"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "永續列車系列報導的主要內容是什麼？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "永續列車由蔣本基教授帶領，深入探討企業減碳路徑、循環經濟以及如何落實 ESG 轉型，是產業邁向淨零的重要參考指南。"
-        }
-      }
-    ]
-  };
 
   useEffect(() => {
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbxjOdSz6LqxraxER6rLYjN31ElDtrGcPgxniiCgJrrq5sqUzItommSfSJiPr_T60hyW/exec';
@@ -83,11 +80,20 @@ export default function Home() {
 
   return (
     <>
+      {/* ✅ 2. 注入 SEO 核心 Metadata (補強排名) */}
+      <head>
+        <title>聚焦誌 Focus Journal | 蔣本基教授指導 - ESG 永續官方網站</title>
+        <meta name="description" content="聚焦誌 Focus Journal 由台大蔣本基教授指導，提供權威的 ESG、永續發展與環境工程影音報導。包含潮永續、永續列車等深度專欄。" />
+        <link rel="canonical" href="https://focus-esg.com" />
+      </head>
+
+      {/* ✅ 3. 注入 FAQ 清場代碼 */}
       <Script id="faq-schema" type="application/ld+json" strategy="afterInteractive">
         {JSON.stringify(faqSchema)}
       </Script>
 
       <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
+        {/* 🎬 背景影片 */}
         <div className="fixed inset-0 z-0">
           <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
             <source src="/bg-video.mp4" type="video/mp4" />
@@ -95,6 +101,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
         </div>
 
+        {/* 🧭 導覽列：雙 LOGO */}
         <nav className="relative z-50 p-6 md:p-10 max-w-7xl mx-auto flex justify-between items-center">
           <div className="relative h-10 w-40">
             <Image src="/brand-logo.png" alt="聚焦誌" fill className="object-contain" priority />
@@ -104,6 +111,7 @@ export default function Home() {
           </div>
         </nav>
 
+        {/* 📱 分類選單 */}
         <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
           <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
             {categories.map((cat) => (
