@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 
-// ✅ 1. 定義 5 個清場問題 (FAQ Schema) - 增加「潮永續」權威度
+// ✅ 1. 定義 5 個清場問題 (FAQ Schema) - 強化「潮永續」活動權威度
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -52,11 +52,11 @@ const faqSchema = {
   ]
 };
 
-// ✅ 2. 更新分類：將「潮永續成果」排在首位，方便明天宣傳
+// ✅ 2. 更新分類：將「潮永續成果」排在首位
 const categories = ["潮永續成果", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("潮永續成果"); // 明天預設顯示成果專區
+  const [activeCategory, setActiveCategory] = useState("潮永續成果"); // 預設顯示成果專區
   const [allData, setAllData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -82,13 +82,32 @@ export default function Home() {
 
   return (
     <>
-      {/* ✅ 3. 注入 SEO 核心 Metadata (強化 3/27 活動宣傳權威性) */}
+      {/* ✅ 3. 注入 SEO 與社群分享核心 Metadata (佈置完成) */}
       <head>
+        {/* 搜尋結果標題 */}
         <title>2026 潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌 Focus Journal 官方網站</title>
-        <meta name="description" content="3/27 潮永續論壇與永續之夜圓滿落幕！由台大蔣本基教授指導，提供最權威的活動實錄、永續大獎影音報導。點擊觀看官方成果特輯。" />
+        {/* 搜尋結果描述 */}
+        <meta name="description" content="3/27 潮永續論壇與永續之夜圓滿落幕！由台大蔣本基教授指導，提供最權威的活動實錄、永續大獎影音報導。點擊觀觀看官方成果特輯。" />
+        {/* 正式網址 */}
         <link rel="canonical" href="https://www.focus-esg.com" />
-        {/* 社群分享圖：建議老闆明天傳一張美圖給我，我幫您換掉底下的網址 */}
-        <meta property="og:image" content="/brand-logo.png" /> 
+        
+        {/* OpenGraph 社群分享卡 (重要！讓 Line/FB 分享變漂亮) */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.focus-esg.com" />
+        <meta property="og:title" content="2026 潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌官方網站" />
+        <meta property="og:description" content="3/27 活動現場直擊！蔣本基教授與雲林縣府共創永續新篇章。完整官方實錄請見聚焦誌。" />
+        
+        {/* ✅ 此處已精確指向老闆提供的大合照照片 */}
+        <meta property="og:image" content="https://scontent.ftpe20-2.fna.fbcdn.net/v/t39.30808-6/657259850_1504230877740354_9220011942548875294_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=7b2446&_nc_ohc=HCB5-3fCKxAQ7kNvwGYm7gz&_nc_oc=Adqopfc4SH74IM8Trvifn95f5HofcZfQQHlT9F7DKJVh6rQ_LGRxkD8zOIRksaWGkfm_Z5AUIzKMs9tggE9NdE7-&_nc_zt=23&_nc_ht=scontent.ftpe20-2.fna&_nc_gid=DXapRBT951ALCwLWampCBg&_nc_ss=7a32e&oh=00_AfzghVKQ2BMBPV_nERUUrbzps4IDduCLJYEK3B_wZiRTJg&oe=69CF1199" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="聚焦誌 Focus Journal" />
+
+        {/* Twitter 分享卡 */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="2026 潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌官方網站" />
+        <meta name="twitter:description" content="3/27 活動現場直擊！蔣本基教授與雲林縣府共創永續新篇章。" />
+        <meta name="twitter:image" content="https://scontent.ftpe20-2.fna.fbcdn.net/v/t39.30808-6/657259850_1504230877740354_9220011942548875294_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=7b2446&_nc_ohc=HCB5-3fCKxAQ7kNvwGYm7gz&_nc_oc=Adqopfc4SH74IM8Trvifn95f5HofcZfQQHlT9F7DKJVh6rQ_LGRxkD8zOIRksaWGkfm_Z5AUIzKMs9tggE9NdE7-&_nc_zt=23&_nc_ht=scontent.ftpe20-2.fna&_nc_gid=DXapRBT951ALCwLWampCBg&_nc_ss=7a32e&oh=00_AfzghVKQ2BMBPV_nERUUrbzps4IDduCLJYEK3B_wZiRTJg&oe=69CF1199" />
       </head>
 
       {/* ✅ 4. 注入 FAQ 清場代碼 */}
@@ -180,8 +199,8 @@ export default function Home() {
                       );
                     })
                   ) : (
-                    <div className="col-span-full text-center py-20 text-gray-500">
-                      尚未上傳相關成果，敬請期待官方報導。
+                    <div className="col-span-full text-center py-20 text-gray-500 bg-white/5 rounded-3xl border border-white/10">
+                      尚未上傳成果影音，敬請期待官方報導。
                     </div>
                   )}
                 </div>
