@@ -21,14 +21,14 @@ export default function GiftPage() {
       `}</style>
 
       <div className="container mt-10">
-        <h1 className="page-title">【潮永續】數位導讀特刊</h1>
+        <h1 className="page-title">【潮永續】永續禮盒特刊</h1>
         <p className="text-center text-gray-400 mb-10 tracking-widest uppercase text-sm">Focus Journal x 相信閱讀 專屬特輯</p>
 
         <div className="introduction">
-          <span className="quote">「每一份閱讀，都是改變的開始。」</span>
+          <span className="quote">《一場不完美的實驗：當永續禮盒遇上數位轉型》</span>
           <p>感謝您支持「相信閱讀」永續禮盒。在這次禮盒的製作過程中，我們思考著如何讓永續的精神更加純粹。為了落實無紙化減碳，並因應數位閱讀趨勢，我們決定將原本長達 48 頁的實體手冊，轉化為更易於傳閱、搜尋與典藏的數位版本。
 
-透過這份數位導讀，我們誠摯邀請您與 [協辦單位名稱] 一起，在指尖翻閱間，感受這份對環境、對社會、對閱讀最深切的承諾。</p>
+透過這份數位導讀，我們誠摯邀請您與 [相信閱讀] 一起，在指尖翻閱間，感受這份對環境、對社會、對閱讀最深切的承諾。</p>
         </div>
 
         <h2 className="section-title">線上即時翻閱</h2>
