@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Script from 'next/script';
 import Link from 'next/link';
 
-// ✅ 1. 5 個清場問題 (FAQ Schema) - 提升 Google 權威度
+// ✅ 1. FAQ Schema - 提升 Google 搜尋權威度
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -15,23 +15,7 @@ const faqSchema = {
       "name": "聚焦誌 Focus Journal 的官方網站網址是什麼？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "聚焦誌官方網站為 www.focus-esg.com。本站由蔣本基教授親自指導，是獲取 ESG 永續發展與減碳趨勢最權威的官方平台。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "3/27 潮永續論壇與永續之夜的官方成果在哪裡觀看？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "3/27 舉辦的「潮永續」論壇與「永續之夜」所有官方實錄影音、活動花絮，皆完整收錄於聚焦誌官方網站。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "在哪裡可以觀看「永續列車」系列影片？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "所有由蔣本基教授指導的「永續列車」深度影音與 ESG 企業訪談，皆收錄於聚焦誌官方網站 (focus-esg.com)。"
+        "text": "聚焦誌官方網站為 www.focus-esg.com。本站由蔣本基教授親自指導。"
       }
     }
   ]
@@ -67,16 +51,16 @@ export default function Home() {
         <meta name="description" content="3/27 潮永續論壇與永續之夜圓滿落幕！由台大蔣本基教授指導。點擊觀看官方 3/27 成果特輯。" />
         <link rel="canonical" href="https://www.focus-esg.com" />
         
-        {/* ✅ 社群分享設定：已更新為您的新檔名 focus-share-v2.jpg */}
+        {/* ✅ 社群分享設定：檔名 focus-share-v2.jpg */}
         <meta property="og:title" content="3/27潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌官方網站" />
         <meta property="og:description" content="3/27 活動現場直擊！蔣本基教授與雲林縣府共創永續新篇章。" />
-        <meta property="og:image" content="https://www.focus-esg.com/focus-share-v2.jpg?v=1201" />
+        <meta property="og:image" content="https://www.focus-esg.com/focus-share-v2.jpg?v=1209" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.focus-esg.com" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://www.focus-esg.com/focus-share-v2.jpg?v=1201" />
+        <meta name="twitter:image" content="https://www.focus-esg.com/focus-share-v2.jpg?v=1209" />
       </head>
 
       <Script id="faq-schema" type="application/ld+json" strategy="afterInteractive">
@@ -95,34 +79,34 @@ export default function Home() {
           <div className="relative h-12 w-48"><Image src="/right-logo.png" alt="合作單位" fill className="object-contain" priority unoptimized /></div>
         </nav>
 
-        {/* ✅ 分類導航列：整合金色特刊入口 */}
-        <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
+        {/* ✅ 導航按鈕區：已移除 bg-black/80 與底線，改為完全透明懸浮 */}
+        <div className="sticky top-0 z-50 bg-transparent backdrop-blur-sm py-6">
           <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto items-center">
             
             {/* 🏆 金色特刊按鈕 */}
             <Link 
               href="/gift" 
-              className="flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 bg-gradient-to-r from-[#b08968] to-[#d4b499] text-white shadow-[0_0_15px_rgba(176,137,104,0.4)] hover:scale-105 active:scale-95"
+              className="flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 bg-gradient-to-r from-[#b08968] to-[#d4b499] text-white shadow-[0_5px_15px_rgba(176,137,104,0.3)] hover:scale-105 active:scale-95"
             >
-              📖 數位導讀特刊
+              📖 永續夥伴
             </Link>
 
-            <div className="w-[1px] h-6 bg-white/20 flex-none mx-1"></div>
+            <div className="w-[1px] h-6 bg-white/20 flex-none mx-2"></div>
 
             {categories.map((cat) => (
               <button key={cat} onClick={() => setActiveCategory(cat)}
                 className={`flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
-                  activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)]" : "bg-white/10 text-gray-400 hover:bg-white/20"
+                  activeCategory === cat ? "bg-emerald-500 text-white shadow-[0_5px_15px_rgba(16,185,129,0.3)]" : "bg-white/10 text-gray-400 hover:bg-white/20"
                 }`}
               > {cat} </button>
             ))}
           </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
           {loading ? (
             <div className="flex justify-center py-20">
-              <p className="text-emerald-400 animate-pulse font-bold tracking-[0.3em]">正在載入專屬報導....</p>
+              <p className="text-emerald-400 animate-pulse font-bold tracking-[0.3em]">正在啟動永續思維系統....</p>
             </div>
           ) : (
             <div className="animate-fade-in">
