@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function GiftPage() {
   // ✅ 這裡的路徑必須跟您 public 裡的檔名完全一致
-  const pdfPath = "/永續禮盒手冊..pdf"; 
+  const pdfPath = "/永續禮盒手冊.pdf"; 
 
   return (
     <main className="min-h-screen bg-[#fdfdfd] text-[#333] font-sans pb-20">
