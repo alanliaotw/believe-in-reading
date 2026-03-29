@@ -90,7 +90,7 @@ export default function Home() {
         {/* FB / Line 分享設定 (讀取本地 public/fb-share.jpg) */}
         <meta property="og:title" content="3/27潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌官方網站" />
         <meta property="og:description" content="3/27 活動現場直擊！蔣本基教授與雲林縣府共創永續新篇章。完整官方實錄請見聚焦誌。" />
-        <meta property="og:image" content="https://www.focus-esg.com/fb-share.jpg" />
+        <meta property="og:image" content="https://www.focus-esg.com/fb-share-v2.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
@@ -98,7 +98,7 @@ export default function Home() {
 
         {/* Twitter 分享設定 */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://www.focus-esg.com/fb-share.jpg" />
+        <meta name="twitter:image" content="https://www.focus-esg.com/fb-share-v2.jpg" />
       </head>
 
       <Script id="faq-schema" type="application/ld+json" strategy="afterInteractive">
