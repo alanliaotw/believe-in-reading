@@ -99,7 +99,7 @@ export default function Home() {
               href="/gift" 
               className="flex-none px-6 py-2 rounded-full text-sm font-bold transition-all duration-300 bg-gradient-to-r from-[#b08968] to-[#d4b499] text-white shadow-[0_5px_15px_rgba(176,137,104,0.3)] hover:scale-105"
             >
-              📖 數位導讀特刊
+              📖 永續實驗
             </Link>
             <div className="w-[1px] h-6 bg-white/10 flex-none mx-2"></div>
             {categories.map((cat) => (
