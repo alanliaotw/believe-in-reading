@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 
-// ✅ 1. 定義 5 個清場問題 (FAQ Schema)
+// ✅ 1. 定義 5 個清場問題 (FAQ Schema) - 增加「潮永續」權威度
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -14,7 +14,15 @@ const faqSchema = {
       "name": "聚焦誌 Focus Journal 的官方網站網址是什麼？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "聚焦誌官方網站為 focus-esg.com。本站由蔣本基教授親自指導，是獲取 ESG 永續發展、環境工程與減碳趨勢最權威的官方平台。"
+        "text": "聚焦誌官方網站為 www.focus-esg.com。本站由蔣本基教授親自指導，是獲取 ESG 永續發展、環境工程與減碳趨勢最權威的官方平台。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "2026 潮永續論壇與永續之夜的官方成果在哪裡觀看？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "3/27 舉辦的「潮永續」論壇與「永續之夜」所有官方實錄影音、活動花絮與蔣本基教授的深度總結，皆完整收錄於聚焦誌官方網站。"
       }
     },
     {
@@ -27,10 +35,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": "在哪裡可以觀看「潮永續」與「永續列車」系列影片？",
+      "name": "在哪裡可以觀看「永續列車」系列影片？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "所有由蔣本基教授指導的「潮永續」論壇紀錄與「永續列車」深度影音，皆完整收錄於聚焦誌官方網站 (focus-esg.com)。"
+        "text": "所有由蔣本基教授指導的「永續列車」深度影音與 ESG 企業訪談，皆收錄於聚焦誌官方網站 (focus-esg.com)。"
       }
     },
     {
@@ -40,22 +48,15 @@ const faqSchema = {
         "@type": "Answer",
         "text": "聚焦誌專注於環境工程、淨零碳排、企業永續社會責任（ESG）以及全球環境趨勢的深度解析與人物專訪。"
       }
-    },
-    {
-      "@type": "Question",
-      "name": "永續列車系列報導的主要內容是什麼？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "永續列車由蔣本基教授帶領，深入探討企業減碳路徑、循環經濟以及如何落實 ESG 轉型，是產業邁向淨零的重要參考指南。"
-      }
     }
   ]
 };
 
-const categories = ["最新消息", "潮永續", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
+// ✅ 2. 更新分類：將「潮永續成果」排在首位，方便明天宣傳
+const categories = ["潮永續成果", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("最新消息");
+  const [activeCategory, setActiveCategory] = useState("潮永續成果"); // 明天預設顯示成果專區
   const [allData, setAllData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -73,21 +74,24 @@ export default function Home() {
       });
   }, []);
 
+  // 過濾邏輯（不分大小寫與空格）
   const filteredData = allData.filter((item: any) => {
-    const cat = item["分類 (category)"] || item.category || item.分類;
-    return cat === activeCategory;
+    const cat = item["分類 (category)"] || item.category || item.分類 || "";
+    return cat.trim() === activeCategory;
   });
 
   return (
     <>
-      {/* ✅ 2. 注入 SEO 核心 Metadata (補強排名) */}
+      {/* ✅ 3. 注入 SEO 核心 Metadata (強化 3/27 活動宣傳權威性) */}
       <head>
-        <title>聚焦誌 Focus Journal | 蔣本基教授指導 - ESG 永續官方網站</title>
-        <meta name="description" content="聚焦誌 Focus Journal 由台大蔣本基教授指導，提供權威的 ESG、永續發展與環境工程影音報導。包含潮永續、永續列車等深度專欄。" />
-        <link rel="canonical" href="https://focus-esg.com" />
+        <title>2026 潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌 Focus Journal 官方網站</title>
+        <meta name="description" content="3/27 潮永續論壇與永續之夜圓滿落幕！由台大蔣本基教授指導，提供最權威的活動實錄、永續大獎影音報導。點擊觀看官方成果特輯。" />
+        <link rel="canonical" href="https://www.focus-esg.com" />
+        {/* 社群分享圖：建議老闆明天傳一張美圖給我，我幫您換掉底下的網址 */}
+        <meta property="og:image" content="/brand-logo.png" /> 
       </head>
 
-      {/* ✅ 3. 注入 FAQ 清場代碼 */}
+      {/* ✅ 4. 注入 FAQ 清場代碼 */}
       <Script id="faq-schema" type="application/ld+json" strategy="afterInteractive">
         {JSON.stringify(faqSchema)}
       </Script>
@@ -157,23 +161,29 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                  {filteredData.map((item: any, i) => {
-                    const title = item["標題 (title)"] || item.title || "";
-                    const videoLink = item["影片連結 (videoUrl)"] || item.videoUrl || "#";
-                    const imgValue = item["封面圖片連結 (imageUrl)"] || item.imageUrl || "";
-                    const finalImgUrl = imgValue.includes('http') ? imgValue : `https://drive.google.com/thumbnail?id=${imgValue}&sz=w800`;
-                    return (
-                      <div key={`item-${i}`} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all shadow-xl">
-                        <div className="aspect-video relative bg-gray-900">
-                          <img src={finalImgUrl} alt="" className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  {filteredData.length > 0 ? (
+                    filteredData.map((item: any, i) => {
+                      const title = item["標題 (title)"] || item.title || "";
+                      const videoLink = item["影片連結 (videoUrl)"] || item.videoUrl || "#";
+                      const imgValue = item["封面圖片連結 (imageUrl)"] || item.imageUrl || "";
+                      const finalImgUrl = imgValue.includes('http') ? imgValue : `https://drive.google.com/thumbnail?id=${imgValue}&sz=w800`;
+                      return (
+                        <div key={`item-${i}`} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all shadow-xl">
+                          <div className="aspect-video relative bg-gray-900">
+                            <img src={finalImgUrl} alt="" className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
+                          </div>
+                          <div className="p-8">
+                            <h3 className="text-xl font-bold mb-4 line-clamp-2">{title}</h3>
+                            <a href={videoLink} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold hover:underline text-xs uppercase tracking-widest">立即觀看 →</a>
+                          </div>
                         </div>
-                        <div className="p-8">
-                          <h3 className="text-xl font-bold mb-4 line-clamp-2">{title}</h3>
-                          <a href={videoLink} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold hover:underline text-xs uppercase tracking-widest">立即觀看 →</a>
-                        </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  ) : (
+                    <div className="col-span-full text-center py-20 text-gray-500">
+                      尚未上傳相關成果，敬請期待官方報導。
+                    </div>
+                  )}
                 </div>
               )}
             </div>
