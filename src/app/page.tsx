@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 
-// ✅ 1. 定義 5 個清場問題 (FAQ Schema) - 鎖定 3/27 活動權威度
+// ✅ 1. 5 個清場問題 (FAQ Schema)
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -52,7 +52,7 @@ const faqSchema = {
   ]
 };
 
-// ✅ 2. 分類名稱：3/27潮永續 (排在首位)
+// ✅ 2. 分類清單 (3/27潮永續 排在第一個)
 const categories = ["3/27潮永續", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
@@ -74,7 +74,6 @@ export default function Home() {
       });
   }, []);
 
-  // 過濾邏輯
   const filteredData = allData.filter((item: any) => {
     const cat = (item["分類 (category)"] || item.category || item.分類 || "").toString().trim();
     return cat === activeCategory;
@@ -82,26 +81,24 @@ export default function Home() {
 
   return (
     <>
-      {/* ✅ 3. 注入 3/27 活動專屬 Metadata 與「新大合照」分享卡 */}
+      {/* ✅ 3. 終極 SEO 與 FB 分享設定 */}
       <head>
         <title>3/27潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌 Focus Journal 官方網站</title>
         <meta name="description" content="3/27 潮永續論壇與永續之夜圓滿落幕！由台大蔣本基教授指導，提供最權威的活動實錄與影音報導。點擊觀看官方 3/27 成果特輯。" />
         <link rel="canonical" href="https://www.focus-esg.com" />
         
-        {/* 社群分享卡 (OpenGraph) */}
+        {/* FB / Line 分享設定 (讀取本地 public/fb-share.jpg) */}
         <meta property="og:title" content="3/27潮永續成果特輯 | 蔣本基教授指導 - 聚焦誌官方網站" />
         <meta property="og:description" content="3/27 活動現場直擊！蔣本基教授與雲林縣府共創永續新篇章。完整官方實錄請見聚焦誌。" />
-        
-        {/* ✅ 已替換為老闆提供的雲端照片 API 連結 (1200x630 高畫質) */}
-        <meta property="og:image" content="https://drive.google.com/thumbnail?id=11fjKrbX0_GVHrWq0eE2Z_gbKpYay7K3s&sz=w1200" />
+        <meta property="og:image" content="https://www.focus-esg.com/fb-share.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.focus-esg.com" />
 
-        {/* Twitter 分享卡 */}
+        {/* Twitter 分享設定 */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://drive.google.com/thumbnail?id=11fjKrbX0_GVHrWq0eE2Z_gbKpYay7K3s&sz=w1200" />
+        <meta name="twitter:image" content="https://www.focus-esg.com/fb-share.jpg" />
       </head>
 
       <Script id="faq-schema" type="application/ld+json" strategy="afterInteractive">
@@ -109,6 +106,7 @@ export default function Home() {
       </Script>
 
       <main className="relative min-h-screen bg-black text-white font-sans selection:bg-emerald-500/30">
+        {/* 背景影片 */}
         <div className="fixed inset-0 z-0">
           <video autoPlay muted loop playsInline className="h-full w-full object-cover opacity-30">
             <source src="/bg-video.mp4" type="video/mp4" />
@@ -116,6 +114,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
         </div>
 
+        {/* 導覽列 */}
         <nav className="relative z-50 p-6 md:p-10 max-w-7xl mx-auto flex justify-between items-center">
           <div className="relative h-10 w-40">
             <Image src="/brand-logo.png" alt="聚焦誌" fill className="object-contain" priority />
@@ -125,6 +124,7 @@ export default function Home() {
           </div>
         </nav>
 
+        {/* 分類按鈕 */}
         <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-md py-4 border-b border-white/10">
           <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto">
             {categories.map((cat) => (
@@ -141,6 +141,7 @@ export default function Home() {
           </div>
         </div>
 
+        {/* 內容區塊 */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
@@ -190,7 +191,7 @@ export default function Home() {
                     })
                   ) : (
                     <div className="col-span-full text-center py-20 text-gray-500 bg-white/5 rounded-3xl border border-white/10">
-                      尚未上傳成果影音，敬請期待官方報導。
+                      尚未上傳 3/27 活動影音，敬請期待官方報導。
                     </div>
                   )}
                 </div>
