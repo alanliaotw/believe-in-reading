@@ -64,7 +64,7 @@ export default function Home() {
         <div className="sticky top-0 z-50 bg-transparent py-6">
           <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto items-center">
             <Link href="/gift" className="flex-none px-6 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-[#b08968] to-[#d4b499] text-white shadow-lg hover:scale-105">
-              📖 數位導讀特刊
+              📖 永續實驗
             </Link>
             <div className="w-[1px] h-6 bg-white/10 flex-none mx-2"></div>
             {categories.map((cat) => (
