@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Script from 'next/script';
 import Link from 'next/link';
 
-// ✅ SEO 核心：建立關鍵字地圖，強迫 Google 關聯
+// ✅ SEO 核心：已移除 3/27，聚焦「潮永續」品牌
 const seoSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -14,10 +14,12 @@ const seoSchema = {
   "url": "https://www.focus-esg.com"
 };
 
-const categories = ["3/27潮永續", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
+// ✅ 已將「3/27潮永續」改回「潮永續」
+const categories = ["潮永續", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("3/27潮永續"); 
+  // ✅ 預設分類同步改為「潮永續」
+  const [activeCategory, setActiveCategory] = useState("潮永續"); 
   const [allData, setAllData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,19 +33,20 @@ export default function Home() {
 
   const filteredData = allData.filter((item: any) => {
     const cat = (item["分類 (category)"] || item.category || item.分類 || "").toString().trim();
-    return cat === activeCategory;
+    // 💡 這裡做個防呆：如果 Excel 裡還是寫 3/27潮永續，我們也讓它顯示在「潮永續」分類裡
+    return cat === activeCategory || (activeCategory === "潮永續" && cat === "3/27潮永續");
   });
 
   return (
     <>
       <head>
-        {/* ✅ 標題佔領策略：把所有詞都寫進去 */}
-        <title>相信閱讀｜聚焦誌：3/27潮永續、永續之夜、永續列車官方網站</title>
-        <meta name="description" content="相信閱讀官方媒體『聚焦誌 Focus Journal』。收錄蔣本基教授指導之潮永續、永續之夜成果，以及永續列車專欄。最權威的 ESG 永續資訊平台。" />
+        {/* ✅ SEO 標題同步去日期化 */}
+        <title>相信閱讀｜聚焦誌：潮永續、永續之夜、永續列車官方網站</title>
+        <meta name="description" content="相信閱讀官方媒體『聚焦誌 Focus Journal』。收錄蔣本基教授指導之潮永續成果、永續之夜實錄，以及永續列車專欄。最權威的 ESG 永續資訊平台。" />
         <meta name="keywords" content="相信閱讀, 潮永續, 永續列車, 聚焦誌, 永續之夜, 蔣本基, ESG, 減碳" />
         <link rel="canonical" href="https://www.focus-esg.com" />
-        <meta property="og:title" content="相信閱讀｜聚焦誌：3/27潮永續、永續之夜官方特輯" />
-        <meta property="og:image" content="https://www.focus-esg.com/focus-share-v2.jpg?v=0330" />
+        <meta property="og:title" content="相信閱讀｜聚焦誌：潮永續官方特輯" />
+        <meta property="og:image" content="https://www.focus-esg.com/focus-share-v2.jpg?v=0410" />
       </head>
 
       <Script id="seo-schema" type="application/ld+json" strategy="afterInteractive">{JSON.stringify(seoSchema)}</Script>
@@ -81,7 +84,7 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
           {loading ? ( <p className="text-emerald-400 animate-pulse text-center py-20">正在啟動相信閱讀系統....</p> ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {filteredData.map((item: any, i) => (
+              {filteredData.length > 0 ? filteredData.map((item: any, i) => (
                 <div key={i} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all">
                   <div className="aspect-video relative bg-gray-900">
                     <img src={item.imageUrl?.includes('http') ? item.imageUrl : `https://drive.google.com/thumbnail?id=${item.imageUrl}&sz=w800`} alt={`相信閱讀潮永續 - ${item.title}`} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
@@ -91,7 +94,9 @@ export default function Home() {
                     <a href={item.videoUrl || item["影片連結 (videoUrl)"]} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold uppercase tracking-widest text-xs">立即觀看 →</a>
                   </div>
                 </div>
-              ))}
+              )) : (
+                <p className="col-span-full text-center py-20 text-gray-500">此分類暫無報導內容</p>
+              )}
             </div>
           )}
         </div>
