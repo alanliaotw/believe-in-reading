@@ -6,8 +6,8 @@ import { schemaTypes } from './src/sanity/schemaTypes'
 export default defineConfig({
   name: 'believe-in-reading',
   title: '相信閱讀 CMS',
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId: 'vrbw1z7k',
+  dataset: 'production',
   basePath: '/studio',
   plugins: [
     structureTool(),
