@@ -16,7 +16,7 @@ const seoSchema = {
 
 const categories = ["潮永續", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
-const GROQ = `*[_type == "article" && status == "published"] | order(_createdAt desc)`;
+const GROQ = `*[_type == "article"] | order(_createdAt desc)`;
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("潮永續");
@@ -25,8 +25,12 @@ export default function Home() {
 
   useEffect(() => {
     sanityClient.fetch<Article[]>(GROQ)
-      .then(data => setAllData(Array.isArray(data) ? data : []))
-      .catch(() => {})
+      .then(data => {
+        const articles = Array.isArray(data) ? data : [];
+        console.log('[Sanity] 抓到文章筆數:', articles.length);
+        setAllData(articles);
+      })
+      .catch((err) => console.error('[Sanity] 查詢失敗:', err))
       .finally(() => setLoading(false));
   }, []);
 

@@ -30,15 +30,15 @@ const PUBLISHED_ARTICLE_FIELDS = `
   status
 `
 
-export async function getAllPublishedArticles(): Promise<Article[]> {
+export async function getAllArticles(): Promise<Article[]> {
   return sanityClient.fetch(
-    `*[_type == "article" && status == "published"] | order(_createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`
+    `*[_type == "article"] | order(_createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`
   )
 }
 
 export async function getArticlesByCategory(category: string): Promise<Article[]> {
   return sanityClient.fetch(
-    `*[_type == "article" && status == "published" && category == $category] | order(_createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`,
+    `*[_type == "article" && category == $category] | order(_createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`,
     { category }
   )
 }
