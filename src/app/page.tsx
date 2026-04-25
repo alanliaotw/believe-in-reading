@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 import Link from 'next/link';
+import { sanityClient, type Article } from '@/lib/sanity';
 
-// ✅ SEO 核心：已移除 3/27，聚焦「潮永續」品牌
 const seoSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -14,36 +14,29 @@ const seoSchema = {
   "url": "https://www.focus-esg.com"
 };
 
-// ✅ 已將「3/27潮永續」改回「潮永續」
 const categories = ["潮永續", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
+const GROQ = `*[_type == "article" && status == "published"] | order(_createdAt desc)`;
+
 export default function Home() {
-  // ✅ 預設分類同步改為「潮永續」
-  const [activeCategory, setActiveCategory] = useState("潮永續"); 
-  const [allData, setAllData] = useState<any[]>([]);
+  const [activeCategory, setActiveCategory] = useState("潮永續");
+  const [allData, setAllData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbxjOdSz6LqxraxER6rLYjN31ElDtrGcPgxniiCgJrrq5sqUzItommSfSJiPr_T60hyW/exec';
-    fetch(scriptUrl).then(res => res.json()).then(data => {
-      setAllData(Array.isArray(data) ? data : []);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    sanityClient.fetch<Article[]>(GROQ)
+      .then(data => setAllData(Array.isArray(data) ? data : []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
-  const filteredData = allData.filter((item: any) => {
-    const cat = (item["分類 (category)"] || item.category || item.分類 || "").toString().trim();
-    const title = (item.title || item["標題 (title)"] || "").toString().trim();
-    const imageUrl = (item.imageUrl || item["封面圖片連結"] || "").toString().trim();
-    if (!title) return false;
-    if (!imageUrl || !imageUrl.includes('http')) return false;
-    return cat === activeCategory || (activeCategory === "潮永續" && cat === "3/27潮永續");
-  });
+  const filteredData = allData.filter(item =>
+    item.title && item.imageUrl && item.category === activeCategory
+  );
 
   return (
     <>
       <head>
-        {/* ✅ SEO 標題同步去日期化 */}
         <title>相信閱讀｜聚焦誌：潮永續、永續之夜、永續列車官方網站</title>
         <meta name="description" content="相信閱讀官方媒體『聚焦誌 Focus Journal』。收錄蔣本基教授指導之潮永續成果、永續之夜實錄，以及永續列車專欄。最權威的 ESG 永續資訊平台。" />
         <meta name="keywords" content="相信閱讀, 潮永續, 永續列車, 聚焦誌, 永續之夜, 蔣本基, ESG, 減碳" />
@@ -66,7 +59,6 @@ export default function Home() {
           <div className="relative h-12 w-48"><Image src="/right-logo.png" alt="合作單位" fill className="object-contain" priority unoptimized /></div>
         </nav>
 
-        {/* 透明導航列 */}
         <div className="sticky top-0 z-50 bg-transparent py-6">
           <div className="flex overflow-x-auto px-6 gap-3 no-scrollbar max-w-7xl mx-auto items-center">
             <Link href="/gift" className="flex-none px-6 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-[#b08968] to-[#d4b499] text-white shadow-lg hover:scale-105">
@@ -83,19 +75,24 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 內容區 */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-8">
-          {loading ? ( <p className="text-emerald-400 animate-pulse text-center py-20">正在啟動相信閱讀系統....</p> ) : (
+          {loading ? (
+            <p className="text-emerald-400 animate-pulse text-center py-20">正在啟動相信閱讀系統....</p>
+          ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {filteredData.length > 0 ? filteredData.map((item: any, i) => (
-                <div key={i} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all">
+              {filteredData.length > 0 ? filteredData.map((item) => (
+                <div key={item._id} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all">
                   <div className="aspect-video relative bg-gray-900">
-                    <img src={item.imageUrl || item["封面圖片連結"]} alt={`相信閱讀潮永續 - ${item.title}`} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    <img src={item.imageUrl} alt={`相信閱讀潮永續 - ${item.title}`} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                   <div className="p-8">
-                    <h3 className="text-xl font-bold mb-4 line-clamp-2">{item.title || item["標題 (title)"]}</h3>
-                    {(() => { const desc = (item.description || item["摘要"] || "").toString().trim(); return desc && !desc.startsWith('http') ? <p className="text-gray-400 text-sm mb-4 line-clamp-3">{desc}</p> : null; })()}
-                    <a href={item.videoUrl || item["影片連結 (videoUrl)"]} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold uppercase tracking-widest text-xs">立即觀看 →</a>
+                    <h3 className="text-xl font-bold mb-4 line-clamp-2">{item.title}</h3>
+                    {item.description && !item.description.startsWith('http') && (
+                      <p className="text-gray-400 text-sm mb-4 line-clamp-3">{item.description}</p>
+                    )}
+                    {item.videoUrl && (
+                      <a href={item.videoUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold uppercase tracking-widest text-xs">立即觀看 →</a>
+                    )}
                   </div>
                 </div>
               )) : (
