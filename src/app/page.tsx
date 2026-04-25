@@ -33,7 +33,10 @@ export default function Home() {
 
   const filteredData = allData.filter((item: any) => {
     const cat = (item["分類 (category)"] || item.category || item.分類 || "").toString().trim();
-    // 💡 這裡做個防呆：如果 Excel 裡還是寫 3/27潮永續，我們也讓它顯示在「潮永續」分類裡
+    const title = (item.title || item["標題 (title)"] || "").toString().trim();
+    const imageUrl = (item.imageUrl || item["封面圖片連結"] || "").toString().trim();
+    if (!title) return false;
+    if (!imageUrl || !imageUrl.includes('http')) return false;
     return cat === activeCategory || (activeCategory === "潮永續" && cat === "3/27潮永續");
   });
 
@@ -87,10 +90,11 @@ export default function Home() {
               {filteredData.length > 0 ? filteredData.map((item: any, i) => (
                 <div key={i} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all">
                   <div className="aspect-video relative bg-gray-900">
-                    <img src={item.imageUrl?.includes('http') ? item.imageUrl : `https://drive.google.com/thumbnail?id=${item.imageUrl}&sz=w800`} alt={`相信閱讀潮永續 - ${item.title}`} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    <img src={item.imageUrl || item["封面圖片連結"]} alt={`相信閱讀潮永續 - ${item.title}`} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                   <div className="p-8">
                     <h3 className="text-xl font-bold mb-4 line-clamp-2">{item.title || item["標題 (title)"]}</h3>
+                    {(() => { const desc = (item.description || item["摘要"] || "").toString().trim(); return desc && !desc.startsWith('http') ? <p className="text-gray-400 text-sm mb-4 line-clamp-3">{desc}</p> : null; })()}
                     <a href={item.videoUrl || item["影片連結 (videoUrl)"]} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold uppercase tracking-widest text-xs">立即觀看 →</a>
                   </div>
                 </div>
