@@ -35,7 +35,7 @@ export default function Home() {
   }, []);
 
   const filteredData = allData.filter(item =>
-    item.title && item.imageUrl && item.category === activeCategory
+    item.title && item.imageUrl && item.category.trim() === activeCategory
   );
 
   return (
