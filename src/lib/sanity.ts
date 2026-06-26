@@ -17,10 +17,12 @@ export type Article = {
   videoUrl?: string
   colorStyle?: string
   status: 'published' | 'draft'
+  _createdAt: string
 }
 
 const PUBLISHED_ARTICLE_FIELDS = `
   _id,
+  _createdAt,
   category,
   title,
   description,
