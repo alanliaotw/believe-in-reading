@@ -85,20 +85,20 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {filteredData.length > 0 ? filteredData.map((item) => (
-                <div key={item._id} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all">
+                <Link key={item._id} href={`/article/${item._id}`} className="group bg-white/5 rounded-[2rem] border border-white/10 overflow-hidden hover:border-emerald-500/50 transition-all block">
                   <div className="aspect-video relative bg-gray-900">
                     <img src={item.imageUrl} alt={`相信閱讀潮永續 - ${item.title}`} className="absolute inset-0 w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                   <div className="p-8">
-                    <h3 className="text-xl font-bold mb-4 line-clamp-2">{item.title}</h3>
+                    <h3 className="text-xl font-bold mb-4 line-clamp-2 group-hover:text-emerald-400 transition-colors">{item.title}</h3>
                     {item.description && !item.description.startsWith('http') && (
                       <p className="text-gray-400 text-sm mb-4 line-clamp-3">{item.description}</p>
                     )}
                     {item.videoUrl && (
-                      <a href={item.videoUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-bold uppercase tracking-widest text-xs">立即觀看 →</a>
+                      <span className="text-emerald-400 font-bold uppercase tracking-widest text-xs">立即觀看 →</span>
                     )}
                   </div>
-                </div>
+                </Link>
               )) : (
                 <p className="col-span-full text-center py-20 text-gray-500">此分類暫無報導內容</p>
               )}
