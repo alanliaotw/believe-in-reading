@@ -93,7 +93,7 @@ export default function PartnershipInquiry() {
     const mailtoUrl = `mailto:${inquiryRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildInquiryBody())}`;
 
     window.location.href = mailtoUrl;
-    setDraftStatus("已開啟送信畫面");
+    setDraftStatus("已開啟 Email，請確認內容後按送出");
   };
 
   const copyInquirySummary = async () => {
@@ -227,7 +227,7 @@ export default function PartnershipInquiry() {
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <button type="submit" className="min-h-12 flex-1 rounded-lg bg-emerald-400 px-5 py-3 text-sm font-black text-black transition hover:bg-emerald-300">
-              送出合作信件
+              用 Email 寄出洽詢
             </button>
             <button
               type="button"
@@ -241,6 +241,9 @@ export default function PartnershipInquiry() {
           {(draftStatus || copyStatus) && (
             <p className="mt-4 min-h-6 text-sm font-semibold text-emerald-200">{draftStatus || copyStatus}</p>
           )}
+          <p className="mt-4 text-xs leading-6 text-gray-500">
+            點擊後會開啟你的 Email 郵件程式，請在郵件畫面確認內容並按送出。
+          </p>
           <p className="mt-4 text-sm leading-6 text-gray-400">
             合作信箱：
             <a href={`mailto:${inquiryRecipient}`} className="font-semibold text-emerald-200 hover:text-emerald-100">
