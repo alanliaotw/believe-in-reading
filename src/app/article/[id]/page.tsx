@@ -1,22 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import { sanityClient, type Article } from '@/lib/sanity';
 
-export default function ArticlePage({ params }: { params: { id: string } }) {
+export default function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     sanityClient.fetch<Article>(
       `*[_type == "article" && _id == $id][0]`,
-      { id: params.id }
+      { id }
     )
       .then(data => setArticle(data))
       .catch(err => console.error('[Sanity] 查詢失敗:', err))
       .finally(() => setLoading(false));
-  }, [params.id]);
+  }, [id]);
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans">
