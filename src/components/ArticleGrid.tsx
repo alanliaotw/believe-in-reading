@@ -32,6 +32,9 @@ export default function ArticleGrid({ articles }: { articles: Article[] }) {
           <Link href="/gift" className="flex-none px-5 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-[#b08968] to-[#d4b499] text-white shadow-lg hover:scale-105 transition-transform">
             📖 永續實驗
           </Link>
+          <a href="#cooperate" className="flex-none px-5 py-2 rounded-full bg-white text-sm font-bold text-black shadow-lg transition-colors hover:bg-emerald-50">
+            合作洽詢
+          </a>
           <div className="w-[1px] h-6 bg-white/10 flex-none mx-1" />
           {categories.map((cat) => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
@@ -52,6 +55,7 @@ export default function ArticleGrid({ articles }: { articles: Article[] }) {
             <Link key={item._id} href={`/article/${item._id}`}
               className="group bg-white/5 rounded-2xl border border-white/10 overflow-hidden hover:border-emerald-500/50 hover:bg-white/8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/20 block">
               <div className="aspect-video relative bg-gray-900 overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.imageUrl}
                   alt={item.title}

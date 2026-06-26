@@ -45,6 +45,7 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
 
             {article.imageUrl && (
               <div className="rounded-2xl overflow-hidden mb-10 aspect-video relative bg-gray-900">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               </div>
             )}
