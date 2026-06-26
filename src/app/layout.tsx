@@ -5,23 +5,16 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// 🚀 就在這裡！把這段 SEO 代碼貼進去
 export const metadata: Metadata = {
-  title: '聚焦誌 Focus Journal | 官方網站 - 蔣本基教授指導',
-  description: '聚焦誌官方網站，專注於永續發展、ESG趨勢、環境工程與社會責任報導。提供最專業、權威的深度觀點，引領企業與社會邁向淨零轉型。',
-  keywords: '聚焦誌, 聚焦誌官方, 蔣本基, ESG報導, 永續發展, 環境工程',
+  title: '聚焦誌 FOCUS｜相信閱讀 Read & Believe 官方網站',
+  description: '聚焦誌（FOCUS）是相信閱讀 Read & Believe 出版的 ESG 永續議題深度雜誌，於誠品、博客來販售。報導碳費、ESG 報告書、TNFD 自然風險，讓複雜永續議題變成讀得懂的故事。',
+  keywords: '聚焦誌, FOCUS聚焦誌, 相信閱讀, Read and Believe, ESG, 永續, 碳費, 永續媒體, ESG雜誌',
   openGraph: {
-    title: '聚焦誌 Focus Journal - 官方網站',
-    description: '引領永續思維的深度媒體',
-    url: 'https://focus-esg.com', // 如果您有確定網址可以改這裡
-    siteName: '聚焦誌 Focus Journal',
-    images: [
-      {
-        url: '/brand-logo.png', 
-        width: 800,
-        height: 600,
-      },
-    ],
+    title: '聚焦誌 FOCUS｜相信閱讀 Read & Believe 官方網站',
+    description: '聚焦誌（FOCUS）ESG 永續議題深度雜誌，把複雜的永續議題說成你讀得懂的故事。',
+    url: 'https://www.focus-esg.com',
+    siteName: '聚焦誌 FOCUS｜相信閱讀 Read & Believe',
+    images: [{ url: 'https://www.focus-esg.com/focus-share-v2.jpg', width: 1200, height: 630 }],
     locale: 'zh_TW',
     type: 'website',
   },
