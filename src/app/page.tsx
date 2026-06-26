@@ -3,6 +3,8 @@ import Script from 'next/script';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getAllArticles } from '@/lib/sanity';
+
+export const revalidate = 0;
 import ArticleGrid from '@/components/ArticleGrid';
 import Footer from '@/components/Footer';
 
