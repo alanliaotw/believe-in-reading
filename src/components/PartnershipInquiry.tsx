@@ -93,7 +93,7 @@ export default function PartnershipInquiry() {
     const mailtoUrl = `mailto:${inquiryRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildInquiryBody())}`;
 
     window.location.href = mailtoUrl;
-    setDraftStatus("已開啟信件草稿");
+    setDraftStatus("已開啟送信畫面");
   };
 
   const copyInquirySummary = async () => {
@@ -227,7 +227,7 @@ export default function PartnershipInquiry() {
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <button type="submit" className="min-h-12 flex-1 rounded-lg bg-emerald-400 px-5 py-3 text-sm font-black text-black transition hover:bg-emerald-300">
-              開啟信件草稿
+              送出合作信件
             </button>
             <button
               type="button"
