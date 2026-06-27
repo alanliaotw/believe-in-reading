@@ -41,6 +41,7 @@ type InquiryForm = {
   timeline: string;
   budget: string;
   message: string;
+  website: string;
 };
 
 const initialInquiryForm: InquiryForm = {
@@ -53,17 +54,19 @@ const initialInquiryForm: InquiryForm = {
   timeline: timelineOptions[3],
   budget: "",
   message: "",
+  website: "",
 };
 
 export default function PartnershipInquiry() {
   const [inquiryForm, setInquiryForm] = useState<InquiryForm>(initialInquiryForm);
   const [copyStatus, setCopyStatus] = useState("");
-  const [draftStatus, setDraftStatus] = useState("");
+  const [submitStatus, setSubmitStatus] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateInquiryField = (field: keyof InquiryForm, value: string) => {
     setInquiryForm((current) => ({ ...current, [field]: value }));
     setCopyStatus("");
-    setDraftStatus("");
+    setSubmitStatus("");
   };
 
   const buildInquiryBody = () => {
@@ -86,14 +89,32 @@ export default function PartnershipInquiry() {
     ].join("\n");
   };
 
-  const openEmailDraft = (event: FormEvent<HTMLFormElement>) => {
+  const submitInquiry = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const subjectName = inquiryForm.organization || inquiryForm.name || "官網訪客";
-    const subject = `合作洽詢｜${subjectName}`;
-    const mailtoUrl = `mailto:${inquiryRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildInquiryBody())}`;
 
-    window.location.href = mailtoUrl;
-    setDraftStatus("已開啟 Email，請確認內容後按送出");
+    setIsSubmitting(true);
+    setSubmitStatus("");
+    setCopyStatus("");
+
+    try {
+      const response = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inquiryForm),
+      });
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.message || '送出失敗，請稍後再試。');
+      }
+
+      setInquiryForm(initialInquiryForm);
+      setSubmitStatus(result.message || '已送出，我們會盡快與你聯繫。');
+    } catch (error) {
+      setSubmitStatus(error instanceof Error ? error.message : '送出失敗，請稍後再試。');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const copyInquirySummary = async () => {
@@ -103,6 +124,15 @@ export default function PartnershipInquiry() {
     } catch {
       setCopyStatus("瀏覽器不支援自動複製，請改用信件草稿");
     }
+  };
+
+  const openEmailFallback = () => {
+    const subjectName = inquiryForm.organization || inquiryForm.name || "官網訪客";
+    const subject = `合作洽詢｜${subjectName}`;
+    const mailtoUrl = `mailto:${inquiryRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildInquiryBody())}`;
+
+    window.location.href = mailtoUrl;
+    setSubmitStatus("已開啟 Email，請確認內容後按送出。");
   };
 
   return (
@@ -127,7 +157,16 @@ export default function PartnershipInquiry() {
           </div>
         </div>
 
-        <form onSubmit={openEmailDraft} className="rounded-lg border border-white/10 bg-black/55 p-5 shadow-2xl backdrop-blur-md md:p-7">
+        <form onSubmit={submitInquiry} className="rounded-lg border border-white/10 bg-black/55 p-5 shadow-2xl backdrop-blur-md md:p-7">
+          <label className="hidden">
+            <span>Website</span>
+            <input
+              tabIndex={-1}
+              autoComplete="off"
+              value={inquiryForm.website}
+              onChange={(event) => updateInquiryField("website", event.target.value)}
+            />
+          </label>
           <div className="grid gap-4 md:grid-cols-2">
             <label className="block">
               <span className="text-sm font-semibold text-gray-200">公司 / 單位</span>
@@ -226,8 +265,19 @@ export default function PartnershipInquiry() {
           </label>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <button type="submit" className="min-h-12 flex-1 rounded-lg bg-emerald-400 px-5 py-3 text-sm font-black text-black transition hover:bg-emerald-300">
-              用 Email 寄出洽詢
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="min-h-12 flex-1 rounded-lg bg-emerald-400 px-5 py-3 text-sm font-black text-black transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-900"
+            >
+              {isSubmitting ? "送出中..." : "送出洽詢"}
+            </button>
+            <button
+              type="button"
+              onClick={openEmailFallback}
+              className="min-h-12 flex-1 rounded-lg border border-emerald-300/40 px-5 py-3 text-sm font-bold text-emerald-100 transition hover:border-emerald-300 hover:bg-emerald-300/10"
+            >
+              用 Email 備援寄出
             </button>
             <button
               type="button"
@@ -238,11 +288,11 @@ export default function PartnershipInquiry() {
             </button>
           </div>
 
-          {(draftStatus || copyStatus) && (
-            <p className="mt-4 min-h-6 text-sm font-semibold text-emerald-200">{draftStatus || copyStatus}</p>
+          {(submitStatus || copyStatus) && (
+            <p className="mt-4 min-h-6 text-sm font-semibold text-emerald-200">{submitStatus || copyStatus}</p>
           )}
           <p className="mt-4 text-xs leading-6 text-gray-500">
-            點擊後會開啟你的 Email 郵件程式，請在郵件畫面確認內容並按送出。
+            表單會由網站後臺寄到合作信箱；若系統暫時無法送出，也可以使用 Email 備援寄出。
           </p>
           <p className="mt-4 text-sm leading-6 text-gray-400">
             合作信箱：
