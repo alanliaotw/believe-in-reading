@@ -23,7 +23,7 @@ export default function Footer() {
               </svg>
             </a>
           </div>
-          <p className="text-gray-600 text-xs">© {new Date().getFullYear()} 相信閱讀 Read & Believe. All rights reserved.</p>
+          <p className="text-gray-600 text-xs">© {new Date().getFullYear()} 相信閱讀國際股份有限公司 Read & Believe International Co., Ltd. All rights reserved.</p>
         </div>
       </div>
     </footer>
