@@ -1,12 +1,10 @@
 import Image from 'next/image';
 import Script from 'next/script';
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getAllArticles } from '@/lib/sanity';
-
-export const revalidate = 0;
 import ArticleGrid from '@/components/ArticleGrid';
 import Footer from '@/components/Footer';
+import PartnershipInquiry from '@/components/PartnershipInquiry';
 
 export const metadata: Metadata = {
   title: '相信閱讀｜聚焦誌：ESG 永續議題深度媒體',
@@ -58,6 +56,8 @@ export default async function Home() {
         </nav>
 
         <ArticleGrid articles={articles} />
+
+        <PartnershipInquiry />
 
         <Footer />
       </main>
