@@ -41,3 +41,8 @@ yarn-error.log*
 next-env.d.ts
 .env*.local
 dist/
+
+# 客戶成果檔／機密（會議簡報、逐字稿等，絕不進 repo）
+output/
+outputs/
+tmp/
