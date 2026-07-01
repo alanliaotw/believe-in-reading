@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getArticleBySlugOrId } from '@/lib/sanity'
+import { getArticleCoverImage } from '@/lib/articleCovers'
 import SanityPortableText from '@/components/SanityPortableText'
 
 export async function generateMetadata({
@@ -79,7 +80,7 @@ export default async function ArticlePage({
           <div className="rounded-2xl overflow-hidden mb-10 aspect-video relative bg-gray-900">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={article.imageUrl || '/focus-share-v2.jpg'}
+              src={getArticleCoverImage(article.slug?.current, article.imageUrl || '/focus-share-v2.jpg')}
               alt={article.title}
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"

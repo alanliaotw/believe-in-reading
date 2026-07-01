@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { type Article } from '@/lib/sanity';
+import { getArticleCoverImage } from '@/lib/articleCovers';
 
 const categories = ["潮永續", "最新消息", "永續列車", "聚焦誌", "人物專訪", "關於我們"];
 
@@ -57,7 +58,7 @@ export default function ArticleGrid({ articles }: { articles: Article[] }) {
               <div className="aspect-video relative bg-gray-900 overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={item.imageUrl || '/focus-share-v2.jpg'}
+                  src={getArticleCoverImage(item.slug?.current, item.imageUrl || '/focus-share-v2.jpg')}
                   alt={item.title}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   referrerPolicy="no-referrer"
