@@ -6,6 +6,8 @@ import ArticleGrid from '@/components/ArticleGrid';
 import Footer from '@/components/Footer';
 import PartnershipInquiry from '@/components/PartnershipInquiry';
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: '相信閱讀｜聚焦誌：ESG 永續議題深度媒體',
   description: '相信閱讀是台灣 ESG 永續議題深度媒體，出版實體雜誌《FOCUS 聚焦誌》於誠品、博客來販售。報導碳費、ESG 報告、TNFD 自然風險等永續趨勢，讓複雜議題變成讀得懂的故事。',
