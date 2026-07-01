@@ -19,10 +19,10 @@ function readingTime(text?: string) {
 }
 
 export default function ArticleGrid({ articles }: { articles: Article[] }) {
-  const [activeCategory, setActiveCategory] = useState("潮永續");
+  const [activeCategory, setActiveCategory] = useState(articles[0]?.category ?? "潮永續");
 
   const filteredData = articles.filter(item =>
-    item.title && item.imageUrl && item.category.trim() === activeCategory
+    item.title && item.category.trim() === activeCategory
   );
 
   return (
@@ -52,12 +52,12 @@ export default function ArticleGrid({ articles }: { articles: Article[] }) {
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredData.length > 0 ? filteredData.map((item) => (
-            <Link key={item._id} href={`/article/${item._id}`}
+            <Link key={item._id} href={`/article/${item.slug?.current || item._id}`}
               className="group bg-white/5 rounded-2xl border border-white/10 overflow-hidden hover:border-emerald-500/50 hover:bg-white/8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-900/20 block">
               <div className="aspect-video relative bg-gray-900 overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={item.imageUrl}
+                  src={item.imageUrl || '/focus-share-v2.jpg'}
                   alt={item.title}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   referrerPolicy="no-referrer"
@@ -69,7 +69,7 @@ export default function ArticleGrid({ articles }: { articles: Article[] }) {
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
-                  <span>{formatDate(item._createdAt)}</span>
+                  <span>{formatDate(item.publishedAt || item._createdAt)}</span>
                   <span>·</span>
                   <span>閱讀約 {readingTime(item.description)}</span>
                 </div>

@@ -1,0 +1,52 @@
+import type { StructureResolver } from 'sanity/structure'
+import { articleTemplateIds } from './articleTemplates'
+
+const CATEGORIES = ['潮永續', '最新消息', '永續列車', '聚焦誌', '人物專訪', '關於我們']
+
+export const deskStructure: StructureResolver = (S) =>
+  S.list()
+    .title('文章工作台')
+    .items([
+      S.listItem()
+        .title('全部文章')
+        .child(
+          S.documentTypeList('article')
+            .title('全部文章')
+            .initialValueTemplates(articleTemplateIds.map((templateId) => S.initialValueTemplateItem(templateId)))
+            .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }]),
+        ),
+      S.listItem()
+        .title('草稿')
+        .child(
+          S.documentList()
+            .title('草稿')
+            .schemaType('article')
+            .filter('_type == "article" && status == "draft"')
+            .initialValueTemplates([])
+            .defaultOrdering([{ field: '_createdAt', direction: 'desc' }]),
+        ),
+      S.listItem()
+        .title('已發布')
+        .child(
+          S.documentList()
+            .title('已發布')
+            .schemaType('article')
+            .filter('_type == "article" && status == "published"')
+            .initialValueTemplates([])
+            .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }]),
+        ),
+      S.divider(),
+      ...CATEGORIES.map((category) =>
+        S.listItem()
+          .title(category)
+          .child(
+            S.documentList()
+              .title(category)
+              .schemaType('article')
+              .filter('_type == "article" && category == $category')
+              .params({ category })
+              .initialValueTemplates([])
+              .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }]),
+          ),
+      ),
+    ])

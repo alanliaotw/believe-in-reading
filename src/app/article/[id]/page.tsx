@@ -1,23 +1,52 @@
-'use client';
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { getArticleBySlugOrId } from '@/lib/sanity'
+import SanityPortableText from '@/components/SanityPortableText'
 
-import { useState, useEffect, use } from 'react';
-import Link from 'next/link';
-import { sanityClient, type Article } from '@/lib/sanity';
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const article = await getArticleBySlugOrId(id)
 
-export default function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const [article, setArticle] = useState<Article | null>(null);
-  const [loading, setLoading] = useState(true);
+  if (!article) {
+    return {
+      title: '找不到文章｜相信閱讀',
+    }
+  }
 
-  useEffect(() => {
-    sanityClient.fetch<Article>(
-      `*[_type == "article" && _id == $id][0]`,
-      { id }
-    )
-      .then(data => setArticle(data))
-      .catch(err => console.error('[Sanity] 查詢失敗:', err))
-      .finally(() => setLoading(false));
-  }, [id]);
+  return {
+    title: `${article.title}｜相信閱讀`,
+    description: article.description || '相信閱讀 ESG 永續議題深度內容',
+    openGraph: {
+      title: article.title,
+      description: article.description || '相信閱讀 ESG 永續議題深度內容',
+      type: 'article',
+    },
+  }
+}
+
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr)
+  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`
+}
+
+export default async function ArticlePage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  const article = await getArticleBySlugOrId(id)
+
+  if (!article) {
+    notFound()
+  }
+
+  const publishDate = article.publishedAt || article._createdAt
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans">
@@ -32,41 +61,49 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
           ← 回首頁
         </Link>
 
-        {loading ? (
-          <p className="text-emerald-400 animate-pulse text-center py-20">載入中...</p>
-        ) : !article ? (
-          <p className="text-center py-20 text-gray-500">找不到文章</p>
-        ) : (
-          <article>
-            <div className="mb-6">
-              <span className="text-xs text-emerald-400 uppercase tracking-widest font-bold">{article.category}</span>
+        <article>
+          <div className="flex items-center gap-3 text-xs text-emerald-400 uppercase tracking-widest font-bold mb-4">
+            <span>{article.category}</span>
+            <span className="text-white/40">·</span>
+            <span>{formatDate(publishDate)}</span>
+          </div>
+
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">{article.title}</h1>
+
+          {article.description && (
+            <p className="text-lg leading-8 text-zinc-300 mb-10 border-l-2 border-emerald-500/60 pl-5">
+              {article.description}
+            </p>
+          )}
+
+          <div className="rounded-2xl overflow-hidden mb-10 aspect-video relative bg-gray-900">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={article.imageUrl || '/focus-share-v2.jpg'}
+              alt={article.title}
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+
+          <div className="prose prose-invert max-w-none prose-p:leading-8 prose-li:leading-8">
+            <SanityPortableText value={article.body} />
+          </div>
+
+          {article.videoUrl && (
+            <div className="mt-10">
+              <a
+                href={article.videoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-8 py-3 rounded-full bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition-colors"
+              >
+                立即觀看 →
+              </a>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-8 leading-tight">{article.title}</h1>
-
-            {article.imageUrl && (
-              <div className="rounded-2xl overflow-hidden mb-10 aspect-video relative bg-gray-900">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-              </div>
-            )}
-
-            {article.description && (
-              <div className="text-gray-300 leading-relaxed whitespace-pre-line text-lg">
-                {article.description}
-              </div>
-            )}
-
-            {article.videoUrl && (
-              <div className="mt-10">
-                <a href={article.videoUrl} target="_blank" rel="noopener noreferrer"
-                  className="inline-block px-8 py-3 rounded-full bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition-colors">
-                  立即觀看 →
-                </a>
-              </div>
-            )}
-          </article>
-        )}
+          )}
+        </article>
       </div>
     </main>
-  );
+  )
 }
