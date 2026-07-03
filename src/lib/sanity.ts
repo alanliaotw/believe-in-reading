@@ -43,22 +43,28 @@ const PUBLISHED_ARTICLE_FIELDS = `
   status
 `
 
+const VISIBLE_PUBLISHED_ARTICLE_FILTER = `
+  _type == "article" &&
+  status == "published" &&
+  (!defined(publishedAt) || publishedAt <= now())
+`
+
 export async function getAllArticles(): Promise<Article[]> {
   return sanityClient.fetch(
-    `*[_type == "article" && status == "published"] | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`
+    `*[${VISIBLE_PUBLISHED_ARTICLE_FILTER}] | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`
   )
 }
 
 export async function getArticlesByCategory(category: string): Promise<Article[]> {
   return sanityClient.fetch(
-    `*[_type == "article" && status == "published" && category == $category] | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`,
+    `*[${VISIBLE_PUBLISHED_ARTICLE_FILTER} && category == $category] | order(coalesce(publishedAt, _createdAt) desc, _createdAt desc) { ${PUBLISHED_ARTICLE_FIELDS} }`,
     { category }
   )
 }
 
 export async function getArticleBySlugOrId(key: string): Promise<Article | null> {
   return sanityClient.fetch(
-    `*[_type == "article" && status == "published" && (slug.current == $key || _id == $key)][0] { ${PUBLISHED_ARTICLE_FIELDS} }`,
+    `*[${VISIBLE_PUBLISHED_ARTICLE_FILTER} && (slug.current == $key || _id == $key)][0] { ${PUBLISHED_ARTICLE_FIELDS} }`,
     { key }
   )
 }
