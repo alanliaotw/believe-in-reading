@@ -4,6 +4,7 @@ import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './src/sanity/schemaTypes'
 import { deskStructure } from './src/sanity/deskStructure'
 import { articleTemplateDefinitions } from './src/sanity/articleTemplates'
+import { socialPostTemplateDefinitions } from './src/sanity/socialPostTemplates'
 
 export default defineConfig({
   name: 'believe-in-reading',
@@ -17,6 +18,6 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
-    templates: articleTemplateDefinitions,
+    templates: [...articleTemplateDefinitions, ...socialPostTemplateDefinitions],
   },
 })

@@ -1,0 +1,31 @@
+name: Publish scheduled social posts
+
+on:
+  schedule:
+    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: social-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger publisher endpoint
+        env:
+          SOCIAL_PUBLISH_ENDPOINT: ${{ secrets.SOCIAL_PUBLISH_ENDPOINT }}
+          SOCIAL_PUBLISH_SECRET: ${{ secrets.SOCIAL_PUBLISH_SECRET }}
+        run: |
+          test -n "$SOCIAL_PUBLISH_ENDPOINT"
+          test -n "$SOCIAL_PUBLISH_SECRET"
+
+          response=$(curl --fail-with-body --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer $SOCIAL_PUBLISH_SECRET" \
+            -H "Content-Type: application/json" \
+            --data '{"limit":1}' \
+            "$SOCIAL_PUBLISH_ENDPOINT")
+
+          echo "$response"

@@ -1,0 +1,25 @@
+name: Check Meta token expiry
+
+on:
+  schedule:
+    - cron: '11 1 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger token check endpoint
+        env:
+          SOCIAL_TOKEN_CHECK_ENDPOINT: ${{ secrets.SOCIAL_TOKEN_CHECK_ENDPOINT }}
+          SOCIAL_PUBLISH_SECRET: ${{ secrets.SOCIAL_PUBLISH_SECRET }}
+        run: |
+          test -n "$SOCIAL_TOKEN_CHECK_ENDPOINT"
+          test -n "$SOCIAL_PUBLISH_SECRET"
+
+          response=$(curl --fail-with-body --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer $SOCIAL_PUBLISH_SECRET" \
+            "$SOCIAL_TOKEN_CHECK_ENDPOINT")
+
+          echo "$response"

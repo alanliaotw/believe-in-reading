@@ -1,12 +1,13 @@
 export const runtime = 'nodejs';
 
+import { publishFacebookPost } from '@/lib/socialPublishing';
+
 type FacebookPostPayload = {
   message?: string;
   link?: string;
+  imageUrl?: string;
   published?: boolean;
 };
-
-const graphApiVersion = 'v25.0';
 
 function cleanText(value: unknown, maxLength = 5000) {
   if (typeof value !== 'string') return '';
@@ -37,10 +38,7 @@ function requireFacebookEnv() {
 
   return {
     ok: true as const,
-    config: {
-      pageId: process.env.FB_PAGE_ID!,
-      pageAccessToken: process.env.FB_PAGE_ACCESS_TOKEN!,
-    },
+    config: true,
   };
 }
 
@@ -59,10 +57,11 @@ export async function POST(request: Request) {
 
   const message = cleanText(body.message);
   const link = cleanText(body.link, 500);
+  const imageUrl = cleanText(body.imageUrl, 1000);
   const published = parseBoolean(body.published);
 
-  if (!message && !link) {
-    return Response.json({ message: '請提供貼文內容或連結。' }, { status: 400 });
+  if (!message && !link && !imageUrl) {
+    return Response.json({ message: '請提供貼文內容、連結或圖片。' }, { status: 400 });
   }
 
   const facebook = requireFacebookEnv();
@@ -73,36 +72,24 @@ export async function POST(request: Request) {
     }, { status: 503 });
   }
 
-  const postBody = new URLSearchParams({
-    access_token: facebook.config.pageAccessToken,
-    published: String(published),
-  });
-
-  if (message) postBody.set('message', message);
-  if (link) postBody.set('link', link);
-
-  const response = await fetch(`https://graph.facebook.com/${graphApiVersion}/${facebook.config.pageId}/feed`, {
-    method: 'POST',
-    body: postBody,
-  });
-  const result = await response.json().catch(() => ({}));
-
-  if (!response.ok) {
-    console.error('[Facebook] Failed to publish post', {
-      status: response.status,
-      error: result?.error?.message || result,
+  try {
+    const result = await publishFacebookPost({
+      message,
+      link,
+      imageUrl,
+      published,
     });
 
     return Response.json({
-      message: result?.error?.message || 'Facebook 發文失敗。',
-      code: result?.error?.code,
-      type: result?.error?.type,
-    }, { status: response.status });
-  }
+      ok: true,
+      id: result.id,
+      message: published ? '已發布到 Facebook。' : '已建立 Facebook 未發布貼文。',
+    });
+  } catch (error) {
+    console.error('[Facebook] Failed to publish post', error);
 
-  return Response.json({
-    ok: true,
-    id: result.id,
-    message: published ? '已發布到 Facebook。' : '已建立 Facebook 未發布貼文。',
-  });
+    return Response.json({
+      message: error instanceof Error ? error.message : 'Facebook 發文失敗。',
+    }, { status: 500 });
+  }
 }
