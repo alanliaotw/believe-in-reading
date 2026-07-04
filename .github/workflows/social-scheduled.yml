@@ -1,0 +1,16 @@
+name: 查社群排程清單
+
+# 手動觸發：即時列出 Facebook 粉專目前排程中的貼文。
+on:
+  workflow_dispatch: {}
+
+jobs:
+  query:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 查 FB 排程
+        run: |
+          curl --fail-with-body --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.SOCIAL_PUBLISH_SECRET }}" \
+            "https://www.focus-esg.com/api/social/scheduled" | python3 -m json.tool
