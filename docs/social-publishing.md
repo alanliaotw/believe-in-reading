@@ -12,6 +12,10 @@
 
 ## Sanity 欄位
 
+- `topic`：主題台帳的標準名稱；排新題前先查相同或近似主題
+- `series`：較大的內容系列
+- `contentAngle`：這一則的具體切角；同主題、同切角視為重複
+- `owner`：`claude`、`codex` 或 `manual`
 - `title`：內部辨識標題
 - `caption`：共用貼文文案
 - `images`：圖片網址清單；一張是單圖，多張是輪播，最多 10 張
@@ -19,7 +23,26 @@
 - `link`：延伸連結
 - `platforms`：`facebook`、`instagram` 或兩者一起
 - `scheduledAt`：排程時間
-- `status`：`scheduled`、`paused`、`processing`、`published`、`failed`
+- `status`：`draft`、`scheduled`、`paused`、`processing`、`published`、`failed`
+
+`draft` 是跨引擎共用的「待確認／主題預約」狀態，不會被排程器發佈。只有老闆核准後，才可改為 `scheduled`。
+
+Sanity Studio 的 Publish 按鈕與文件內的 `status` 是兩件事：佔題文件要按 Publish，讓另一邊查得到，但欄位仍保持 `status=draft`，因此不會被社群排程器送出。
+
+## 排程前查重
+
+```bash
+# 列出共用內容台帳
+npm run social:audit
+
+# 查某個候選主題與既有內容的相似度
+npm run social:audit -- --check "候選主題"
+
+# 顯示完整網站文章與戰情記錄
+npm run social:audit -- --all
+```
+
+完整分工與查重規則見 [`docs/social-content-collaboration.md`](./social-content-collaboration.md)。
 
 ## 必要環境變數
 
@@ -49,9 +72,9 @@
 
 1. 進 Sanity Studio
 2. 建立 `IG 排程貼文`、`FB 排程貼文` 或 `FB + IG 排程貼文`
-3. 填入文案、圖片清單、平台、排程時間
-4. `status` 保持 `scheduled`
-5. 在 Sanity 右上角按 Publish
+3. 先填主題、系列、內容切角、負責引擎與預計時間
+4. `status` 保持 `draft`，在 Sanity 右上角按 Publish，讓另一邊能立即看到並避題
+5. 老闆確認圖文後，補齊文案與圖片，才把 `status` 改成 `scheduled`
 
 ## 手動測試
 

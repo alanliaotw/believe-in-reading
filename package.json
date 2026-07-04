@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "social:audit": "node scripts/social-content-audit.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^6.2.0",

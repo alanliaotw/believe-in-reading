@@ -72,6 +72,16 @@ export const deskStructure: StructureResolver = (S) =>
             .defaultOrdering([{ field: 'scheduledAt', direction: 'asc' }]),
         ),
       S.listItem()
+        .title('待確認社群草稿')
+        .child(
+          S.documentList()
+            .title('待確認社群草稿')
+            .schemaType('socialPost')
+            .filter('_type == "socialPost" && status == "draft"')
+            .initialValueTemplates([])
+            .defaultOrdering([{ field: '_updatedAt', direction: 'desc' }]),
+        ),
+      S.listItem()
         .title('發佈失敗')
         .child(
           S.documentList()

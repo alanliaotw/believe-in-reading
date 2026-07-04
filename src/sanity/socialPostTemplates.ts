@@ -7,7 +7,8 @@ export const socialPostTemplateDefinitions: Template[] = [
     schemaType: 'socialPost',
     value: {
       platforms: ['instagram'],
-      status: 'scheduled',
+      status: 'draft',
+      owner: 'manual',
       attempts: 0,
     },
   },
@@ -17,7 +18,8 @@ export const socialPostTemplateDefinitions: Template[] = [
     schemaType: 'socialPost',
     value: {
       platforms: ['facebook'],
-      status: 'scheduled',
+      status: 'draft',
+      owner: 'manual',
       attempts: 0,
     },
   },
@@ -27,7 +29,8 @@ export const socialPostTemplateDefinitions: Template[] = [
     schemaType: 'socialPost',
     value: {
       platforms: ['facebook', 'instagram'],
-      status: 'scheduled',
+      status: 'draft',
+      owner: 'manual',
       attempts: 0,
     },
   },

@@ -1,6 +1,7 @@
 export const SOCIAL_PLATFORMS = ['facebook', 'instagram'] as const
 
 export const SOCIAL_POST_STATUSES = [
+  'draft',
   'scheduled',
   'paused',
   'processing',
@@ -8,13 +9,20 @@ export const SOCIAL_POST_STATUSES = [
   'failed',
 ] as const
 
+export const SOCIAL_CONTENT_OWNERS = ['claude', 'codex', 'manual'] as const
+
 export type SocialPlatform = (typeof SOCIAL_PLATFORMS)[number]
 export type SocialPostStatus = (typeof SOCIAL_POST_STATUSES)[number]
+export type SocialContentOwner = (typeof SOCIAL_CONTENT_OWNERS)[number]
 
 export type SocialPostRecord = {
   _id: string
   _rev: string
   title: string
+  topic?: string
+  series?: string
+  contentAngle?: string
+  owner?: SocialContentOwner
   caption: string
   imageUrl?: string
   images?: string[]
