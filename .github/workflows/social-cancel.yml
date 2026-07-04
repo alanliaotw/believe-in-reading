@@ -1,0 +1,25 @@
+name: 取消 FB 排程貼文
+
+on:
+  workflow_dispatch:
+    inputs:
+      ids:
+        description: '要刪除的貼文 ID（逗號分隔）'
+        required: true
+
+jobs:
+  cancel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 刪除排程貼文
+        env:
+          IDS: ${{ inputs.ids }}
+        run: |
+          python3 -c "import json,os;print(json.dumps({'ids':[x.strip() for x in os.environ['IDS'].split(',') if x.strip()]}))" > body.json
+          cat body.json
+          curl --fail-with-body --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.SOCIAL_PUBLISH_SECRET }}" \
+            -H "Content-Type: application/json" \
+            --data @body.json \
+            "https://www.focus-esg.com/api/social/cancel" | python3 -m json.tool
