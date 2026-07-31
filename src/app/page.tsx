@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Script from 'next/script';
 import type { Metadata } from 'next';
 import { getAllArticles } from '@/lib/sanity';
 import ArticleGrid from '@/components/ArticleGrid';
@@ -25,11 +24,50 @@ export const metadata: Metadata = {
 
 const seoSchema = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "相信閱讀｜聚焦誌",
-  "alternateName": ["FOCUS聚焦誌", "潮永續", "永續列車", "Read & Believe"],
-  "url": "https://www.focus-esg.com",
-  "description": "ESG 永續議題深度媒體，出版《FOCUS 聚焦誌》實體雜誌"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.focus-esg.com/#organization",
+      "name": "相信閱讀國際股份有限公司",
+      "alternateName": ["相信閱讀", "Read & Believe"],
+      "url": "https://www.focus-esg.com",
+      "logo": "https://www.focus-esg.com/brand-logo.png",
+      "description": "台灣 ESG 永續議題深度媒體，發行《FOCUS 聚焦誌》實體雜誌。",
+      "telephone": "+886-2-2767-2688",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "八德路三段2號6樓",
+        "addressLocality": "松山區",
+        "addressRegion": "臺北市",
+        "postalCode": "10558",
+        "addressCountry": "TW"
+      },
+      "sameAs": [
+        "https://www.facebook.com/readnbelieve.focus/",
+        "https://www.instagram.com/read.n.believe/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.focus-esg.com/#website",
+      "name": "相信閱讀｜聚焦誌",
+      "alternateName": ["FOCUS聚焦誌", "聚焦誌", "潮永續", "永續列車", "Read & Believe"],
+      "url": "https://www.focus-esg.com",
+      "description": "ESG 永續議題深度媒體，出版《FOCUS 聚焦誌》實體雜誌",
+      "inLanguage": "zh-TW",
+      "publisher": { "@id": "https://www.focus-esg.com/#organization" }
+    },
+    {
+      "@type": "Periodical",
+      "@id": "https://www.focus-esg.com/#periodical",
+      "name": "FOCUS 聚焦誌",
+      "alternateName": ["聚焦誌", "Focus Journal"],
+      "url": "https://www.focus-esg.com",
+      "description": "《FOCUS 聚焦誌》是相信閱讀國際股份有限公司發行的 ESG 永續議題實體雜誌，每季於誠品、博客來等通路上架，報導碳費、ESG 報告、TNFD 自然風險等永續趨勢。",
+      "inLanguage": "zh-TW",
+      "publisher": { "@id": "https://www.focus-esg.com/#organization" }
+    }
+  ]
 };
 
 export default async function Home() {
@@ -37,11 +75,15 @@ export default async function Home() {
 
   return (
     <>
-      <Script id="seo-schema" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify(seoSchema)}
-      </Script>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seoSchema) }}
+      />
 
       <main className="relative min-h-screen bg-black text-white font-sans">
+        <h1 className="sr-only">
+          相信閱讀《FOCUS 聚焦誌》｜ESG 永續議題深度媒體
+        </h1>
         <div className="fixed inset-0 z-0 opacity-30">
           <video autoPlay muted loop playsInline className="h-full w-full object-cover">
             <source src="/bg-video.mp4" type="video/mp4" />

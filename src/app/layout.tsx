@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: '聚焦誌 Focus Journal | 官方網站 - 蔣本基教授指導',
   description: '聚焦誌官方網站，專注於永續發展、ESG趨勢、環境工程與社會責任報導。提供最專業、權威的深度觀點，引領企業與社會邁向淨零轉型。',
   keywords: '聚焦誌, 聚焦誌官方, 蔣本基, ESG報導, 永續發展, 環境工程',
+  alternates: {
+    canonical: './',
+  },
   openGraph: {
     title: '聚焦誌 Focus Journal - 官方網站',
     description: '引領永續思維的深度媒體',
