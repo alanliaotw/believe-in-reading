@@ -48,9 +48,33 @@ export default async function ArticlePage({
   }
 
   const publishDate = article.publishedAt || article._createdAt
+  const articleUrl = `https://www.focus-esg.com/article/${article.slug?.current || id}`
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description || '相信閱讀 ESG 永續議題深度內容',
+    image: getArticleCoverImage(article.slug?.current, article.imageUrl || '/focus-share-v2.jpg'),
+    datePublished: publishDate,
+    dateModified: publishDate,
+    inLanguage: 'zh-TW',
+    mainEntityOfPage: articleUrl,
+    url: articleUrl,
+    author: { '@id': 'https://www.focus-esg.com/#organization' },
+    publisher: { '@id': 'https://www.focus-esg.com/#organization' },
+    // 聚焦誌分類的文章屬於雜誌本體，其餘分類是網站自有內容，不掛在期刊底下。
+    ...(article.category === '聚焦誌'
+      ? { isPartOf: { '@id': 'https://www.focus-esg.com/#periodical' } }
+      : {}),
+  }
 
   return (
     <main className="relative min-h-screen bg-black text-white font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <div className="fixed inset-0 z-0 opacity-20">
         <video autoPlay muted loop playsInline className="h-full w-full object-cover">
           <source src="/bg-video.mp4" type="video/mp4" />
