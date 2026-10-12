@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType, type PreviewValue } from 'sanity'
 
 const CATEGORIES = ['潮永續', '最新消息', '永續列車', '聚焦誌', '人物專訪', '關於我們']
 
@@ -101,8 +101,16 @@ export const articleType = defineType({
               description: '無障礙與 SEO 用。留空會自動沿用上面的圖說，不必重複打。',
             },
           ],
+          // 縮圖必須由 prepare 把 asset 原樣交給 media；
+          // 寫成 select: { media: 'asset' } 會讓 Studio 不顯示縮圖。
           preview: {
-            select: { media: 'asset', title: 'caption' },
+            select: { asset: 'asset', caption: 'caption' },
+            prepare({ asset, caption }: { asset?: unknown; caption?: string }) {
+              return {
+                title: caption || '（未填圖說）',
+                media: asset as PreviewValue['media'],
+              }
+            },
           },
         },
       ],
