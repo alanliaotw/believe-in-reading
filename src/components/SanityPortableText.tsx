@@ -23,6 +23,37 @@ const components: PortableTextComponents = {
     bullet: ({ children }) => <li className="leading-8">{children}</li>,
     number: ({ children }) => <li className="leading-8">{children}</li>,
   },
+  types: {
+    image: ({ value }) => {
+      const assetUrl = typeof value?.assetUrl === 'string' ? value.assetUrl : ''
+      if (!assetUrl) return null
+
+      const caption = typeof value?.caption === 'string' ? value.caption.trim() : ''
+      const altText = typeof value?.alt === 'string' ? value.alt.trim() : ''
+      const aspectRatio =
+        typeof value?.dimensions?.aspectRatio === 'number' ? value.dimensions.aspectRatio : undefined
+
+      return (
+        <figure className="my-10">
+          <div
+            className="overflow-hidden rounded-2xl bg-gray-900"
+            style={aspectRatio ? { aspectRatio } : undefined}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${assetUrl}?w=1600&q=80&auto=format`}
+              alt={altText || caption}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          {caption && (
+            <figcaption className="mt-3 text-sm leading-6 text-zinc-400">{caption}</figcaption>
+          )}
+        </figure>
+      )
+    },
+  },
   marks: {
     link: ({ children, value }) => {
       const href = typeof value?.href === 'string' ? value.href : '#'

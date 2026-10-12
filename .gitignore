@@ -46,3 +46,6 @@ dist/
 output/
 outputs/
 tmp/
+
+# 本機開發工具設定，不進 repo
+.claude/

@@ -9,6 +9,19 @@ export const sanityClient = createClient({
   useCdn: false,
 })
 
+export type ArticleBodyImage = {
+  _type: 'image'
+  _key: string
+  caption?: string
+  alt?: string
+  assetUrl?: string
+  dimensions?: {
+    width?: number
+    height?: number
+    aspectRatio?: number
+  }
+}
+
 export type Article = {
   _id: string
   category: string
@@ -17,8 +30,8 @@ export type Article = {
     current?: string
   }
   description?: string
-  body?: PortableTextBlock[]
-  imageUrl: string
+  body?: (PortableTextBlock | ArticleBodyImage)[]
+  imageUrl?: string
   videoUrl?: string
   colorStyle?: string
   publishedAt?: string
@@ -34,7 +47,13 @@ const PUBLISHED_ARTICLE_FIELDS = `
   title,
   slug,
   description,
-  body,
+  body[] {
+    ...,
+    _type == "image" => {
+      "assetUrl": asset->url,
+      "dimensions": asset->metadata.dimensions
+    }
+  },
   imageUrl,
   videoUrl,
   colorStyle,

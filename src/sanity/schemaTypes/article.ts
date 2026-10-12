@@ -83,16 +83,38 @@ export const articleType = defineType({
             ],
           },
         },
+        {
+          type: 'image',
+          title: '圖片',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              title: '圖說',
+              type: 'string',
+              description: '顯示在圖片下方的說明文字。',
+            },
+            {
+              name: 'alt',
+              title: '替代文字',
+              type: 'string',
+              description: '無障礙與 SEO 用。留空會自動沿用上面的圖說，不必重複打。',
+            },
+          ],
+          preview: {
+            select: { media: 'asset', title: 'caption' },
+          },
+        },
       ],
-      description: '正式文章內容，建議用來放完整內文、段落與重點整理。',
+      description: '正式文章內容，建議用來放完整內文、段落與重點整理。圖片可直接插在段落之間。',
       group: 'content',
     }),
     defineField({
       name: 'imageUrl',
       title: '封面圖片連結',
       type: 'url',
-      validation: (Rule) =>
-        Rule.required().uri({ scheme: ['http', 'https'] }),
+      description: '留空的話，會自動用內文的第一張圖片當封面。只有想指定別張圖時才需要填。',
+      validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }),
       group: 'media',
     }),
     defineField({
