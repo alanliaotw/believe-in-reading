@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { SOCIAL_CONTENT_OWNERS, SOCIAL_PLATFORMS, SOCIAL_POST_STATUSES } from '@/lib/social'
+// 用相對路徑而非 @/ 別名：Sanity CLI 的 vite 建置不認得 tsconfig 的 paths，
+// 用別名會讓 `sanity deploy` 建置失敗（Next.js 的建置兩種都吃得下）。
+import { SOCIAL_CONTENT_OWNERS, SOCIAL_PLATFORMS, SOCIAL_POST_STATUSES } from '../../lib/social'
 
 const PLATFORM_TITLES: Record<(typeof SOCIAL_PLATFORMS)[number], string> = {
   facebook: 'Facebook',
