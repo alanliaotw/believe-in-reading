@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getArticleBySlugOrId } from '@/lib/sanity'
-import { resolveArticleCover } from '@/lib/articleCovers'
+import { isCoverFromBody, resolveArticleCover } from '@/lib/articleCovers'
 import SanityPortableText from '@/components/SanityPortableText'
 
 export async function generateMetadata({
@@ -46,6 +46,14 @@ export default async function ArticlePage({
   if (!article) {
     notFound()
   }
+
+  // 封面沿用內文第一張圖時，內文就不再放那張，圖說移到封面下方
+  const coverFromBody = isCoverFromBody(article)
+  const firstImageIndex = coverFromBody ? (article.body ?? []).findIndex((node) => node._type === 'image') : -1
+  const coverCaption =
+    firstImageIndex >= 0 ? String((article.body![firstImageIndex] as { caption?: unknown }).caption ?? '').trim() : ''
+  const bodyBlocks =
+    firstImageIndex >= 0 ? article.body!.filter((_, index) => index !== firstImageIndex) : article.body
 
   const publishDate = article.publishedAt || article._createdAt
   const articleUrl = `https://www.focus-esg.com/article/${article.slug?.current || id}`
@@ -101,18 +109,23 @@ export default async function ArticlePage({
             </p>
           )}
 
-          <div className="rounded-2xl overflow-hidden mb-10 aspect-video relative bg-gray-900">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={resolveArticleCover(article)}
-              alt={article.title}
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-          </div>
+          <figure className="mb-10">
+            <div className="rounded-2xl overflow-hidden aspect-video relative bg-gray-900">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={resolveArticleCover(article)}
+                alt={article.title}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            {coverCaption && (
+              <figcaption className="mt-3 text-sm leading-6 text-zinc-400">{coverCaption}</figcaption>
+            )}
+          </figure>
 
           <div className="prose prose-invert max-w-none prose-p:leading-8 prose-li:leading-8">
-            <SanityPortableText value={article.body} />
+            <SanityPortableText value={bodyBlocks} />
           </div>
 
           {article.videoUrl && (

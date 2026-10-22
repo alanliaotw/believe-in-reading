@@ -40,6 +40,14 @@ function firstBodyImageUrl(body: unknown): string | undefined {
 }
 
 /**
+ * 封面是否沿用內文第一張圖片。是的話，文章頁的內文要拿掉那張，避免同一張照片出現兩次。
+ */
+export function isCoverFromBody(article: ArticleCoverSource) {
+  const mapped = article.slug?.current ? articleCoverBySlug[article.slug.current] : undefined
+  return !mapped && !article.imageUrl && Boolean(firstBodyImageUrl(article.body))
+}
+
+/**
  * 封面圖優先序：
  * 1. slug 對照表（幾篇舊文章有專屬封面）
  * 2. 文章填的「封面圖片連結」
