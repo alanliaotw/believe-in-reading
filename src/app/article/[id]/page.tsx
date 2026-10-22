@@ -55,6 +55,27 @@ export default async function ArticlePage({
   const bodyBlocks =
     firstImageIndex >= 0 ? article.body!.filter((_, index) => index !== firstImageIndex) : article.body
 
+  // 內文開頭第一段若跟標題一模一樣就略過；摘要已經寫在內文前三段裡時，頁面上不再顯示摘要框
+  // （SEO 與分享預覽照樣用摘要）
+  const normalize = (text: string) => text.replace(/\s+/g, '')
+  const blockText = (node: unknown) =>
+    normalize(((node as { children?: { text?: string }[] }).children ?? []).map((child) => child.text ?? '').join(''))
+  const firstParagraphIndex = (bodyBlocks ?? []).findIndex((node) => node._type === 'block')
+  const shownBlocks =
+    firstParagraphIndex >= 0 && blockText(bodyBlocks![firstParagraphIndex]) === normalize(article.title)
+      ? bodyBlocks!.filter((_, index) => index !== firstParagraphIndex)
+      : bodyBlocks
+  const openingText = (shownBlocks ?? [])
+    .filter((node) => node._type === 'block')
+    .slice(0, 3)
+    .map(blockText)
+    .join('')
+  const normalizedDescription = normalize(article.description ?? '')
+  const showDescription =
+    Boolean(normalizedDescription) &&
+    normalizedDescription !== normalize(article.title) &&
+    !openingText.includes(normalizedDescription)
+
   const publishDate = article.publishedAt || article._createdAt
   const articleUrl = `https://www.focus-esg.com/article/${article.slug?.current || id}`
 
@@ -103,7 +124,7 @@ export default async function ArticlePage({
 
           <h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">{article.title}</h1>
 
-          {article.description && (
+          {showDescription && (
             <p className="text-lg leading-8 text-zinc-300 mb-10 border-l-2 border-emerald-500/60 pl-5">
               {article.description}
             </p>
@@ -125,7 +146,7 @@ export default async function ArticlePage({
           </figure>
 
           <div className="prose prose-invert max-w-none prose-p:leading-8 prose-li:leading-8">
-            <SanityPortableText value={bodyBlocks} />
+            <SanityPortableText value={shownBlocks} />
           </div>
 
           {article.videoUrl && (
