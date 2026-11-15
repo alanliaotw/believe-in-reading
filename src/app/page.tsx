@@ -9,7 +9,7 @@ export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: '相信閱讀｜聚焦誌：ESG 永續議題深度媒體',
-  description: '相信閱讀是台灣 ESG 永續議題深度媒體，出版實體雜誌《FOCUS 聚焦誌》於誠品線上、讀冊生活販售。報導碳費、ESG 報告、TNFD 自然風險等永續趨勢，讓複雜議題變成讀得懂的故事。',
+  description: '相信閱讀是台灣 ESG 永續議題深度媒體，出版實體雜誌《FOCUS 聚焦誌》於誠品書店各大門市販售。報導碳費、ESG 報告、TNFD 自然風險等永續趨勢，讓複雜議題變成讀得懂的故事。',
   keywords: '相信閱讀, FOCUS聚焦誌, ESG, 永續, 碳費, 潮永續, 永續列車, 永續媒體',
   openGraph: {
     title: '相信閱讀｜聚焦誌 - ESG 永續議題深度媒體',
@@ -63,7 +63,7 @@ const seoSchema = {
       "name": "FOCUS 聚焦誌",
       "alternateName": ["聚焦誌", "Focus Journal"],
       "url": "https://www.focus-esg.com",
-      "description": "《FOCUS 聚焦誌》是相信閱讀國際股份有限公司發行的 ESG 永續議題實體雜誌，每季於誠品線上、讀冊生活等通路上架，報導碳費、ESG 報告、TNFD 自然風險等永續趨勢。",
+      "description": "《FOCUS 聚焦誌》是相信閱讀國際股份有限公司發行的 ESG 永續議題實體雜誌，每季於誠品書店各大門市上架，報導碳費、ESG 報告、TNFD 自然風險等永續趨勢。",
       "inLanguage": "zh-TW",
       "publisher": { "@id": "https://www.focus-esg.com/#organization" }
     }
