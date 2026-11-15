@@ -5,7 +5,7 @@ export default function Footer() {
         <div>
           <p className="text-white font-bold text-lg mb-1">相信閱讀 Read & Believe</p>
           <p className="text-gray-400 text-sm">ESG 永續議題深度媒體</p>
-          <p className="text-gray-500 text-xs mt-2">實體雜誌《FOCUS 聚焦誌》於誠品、博客來販售</p>
+          <p className="text-gray-500 text-xs mt-2">實體雜誌《FOCUS 聚焦誌》於誠品線上、讀冊生活販售</p>
         </div>
 
         <div className="flex flex-col items-center md:items-end gap-4">
