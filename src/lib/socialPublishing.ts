@@ -62,6 +62,22 @@ function getInstagramBusinessAccountId() {
   )
 }
 
+// 連到自家兩個網站的連結自動加追蹤碼，GA／Vercel 才分得出是 FB 還是 IG 帶來的人
+const OWN_SITE_HOSTS = ['focus-esg.com', 'www.focus-esg.com', 'reading.com.tw', 'www.reading.com.tw']
+
+export function withUtm(link: string | undefined, source: 'facebook' | 'instagram') {
+  if (!link) return link
+  try {
+    const url = new URL(link)
+    if (!OWN_SITE_HOSTS.includes(url.hostname) || url.searchParams.has('utm_source')) return link
+    url.searchParams.set('utm_source', source)
+    url.searchParams.set('utm_medium', 'social')
+    return url.toString()
+  } catch {
+    return link
+  }
+}
+
 function buildTextWithLink(message?: string, link?: string) {
   return [cleanText(message), cleanText(link, 500)].filter(Boolean).join('\n\n')
 }
@@ -152,7 +168,7 @@ export async function publishFacebookPost({
   published = true,
 }: FacebookPublishInput): Promise<FacebookPublishResult> {
   const normalizedMessage = cleanText(message)
-  const normalizedLink = cleanText(link, 500)
+  const normalizedLink = withUtm(cleanText(link, 500), 'facebook')
   const normalizedImageUrls = normalizeImageUrls(imageUrl, imageUrls)
   const firstImageUrl = normalizedImageUrls[0]
 
@@ -231,7 +247,7 @@ export async function publishInstagramImagePost({
 
   const accessToken = getInstagramAccessToken()
   const instagramBusinessAccountId = getInstagramBusinessAccountId()
-  const normalizedCaption = buildTextWithLink(cleanText(caption, 2200), cleanText(link, 500))
+  const normalizedCaption = buildTextWithLink(cleanText(caption, 2200), withUtm(cleanText(link, 500), 'instagram'))
 
   if (normalizedImageUrls.length > 1) {
     const creationIds: string[] = []

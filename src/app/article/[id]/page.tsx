@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { getArticleBySlugOrId } from '@/lib/sanity'
 import { isCoverFromBody, resolveArticleCover } from '@/lib/articleCovers'
 import SanityPortableText from '@/components/SanityPortableText'
@@ -19,8 +19,11 @@ export async function generateMetadata({
     }
   }
 
+  const canonicalKey = article.slug?.current || article._id
+
   return {
     title: `${article.title}｜相信閱讀`,
+    alternates: { canonical: `https://www.focus-esg.com/article/${encodeURIComponent(canonicalKey)}` },
     description: article.description || '相信閱讀 ESG 永續議題深度內容',
     openGraph: {
       title: article.title,
@@ -45,6 +48,11 @@ export default async function ArticlePage({
 
   if (!article) {
     notFound()
+  }
+
+  // 有英文網址的文章，用舊的亂碼網址（文件 ID）進來就永久轉到英文網址，排名才會跟著轉過去
+  if (article.slug?.current && decodeURIComponent(id) !== article.slug.current) {
+    permanentRedirect(`/article/${encodeURIComponent(article.slug.current)}`)
   }
 
   // 封面沿用內文第一張圖時，內文就不再放那張，圖說移到封面下方
